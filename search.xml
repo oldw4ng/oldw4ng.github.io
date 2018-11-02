@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[2. Add Two Numbers]]></title>
+    <url>%2F2018%2F11%2F02%2Fadd-two-numbers%2F</url>
+    <content type="text"><![CDATA[DescriptionYou are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list. You may assume the two numbers do not contain any leading zero, except the number 0 itself. ExampleInput: (2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)Output: 7 -&gt; 0 -&gt; 8Explanation: 342 + 465 = 807. Solution]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Linked List</tag>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[1. Two Sum]]></title>
-    <url>%2F2018%2F10%2F31%2FTwo-Sum%2F</url>
+    <url>%2F2018%2F10%2F31%2Ftwo-sum%2F</url>
     <content type="text"><![CDATA[DescriptionGiven an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use the same element twice. ExampleGiven nums = [2, 7, 11, 15], target = 9, Because nums[0] + nums[1] = 2 + 7 = 9,return [0, 1]. Solution方法1两层循环, 内层循环查找是否存在一个 y 使得 x + y = target 时间复杂度 O(n^2)空间复杂度 O(1)12345678910111213class Solution &#123;public: vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123; for (int x = 0; x &lt; nums.size(); x++) &#123; for (int y = x + 1; y &lt; nums.size(); y++) &#123; if (nums[y] == target - nums[x]) &#123; return &#123;x, y&#125;; &#125; &#125; &#125; return &#123;&#125;; &#125;&#125;; 方法2对数组排序, 用两个指针 (x, y), 分别指向数组的头和尾.若 nums[x] + nums[y] &gt; target, y–;若 nums[x] + nums[y] &lt; target, x++; 时间复杂度 O(nlgn)空间复杂度 O(1)1234567891011121314151617class Solution &#123;public: vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123; sort(nums.begin(), nums.end()); int x = 0, y = nums.size() - 1; while (x &lt; y) &#123; if (nums[x] + nums[y] == target) &#123; return &#123;x, y&#125;; &#125; else if (nums[x] + nums[y] &gt; target) &#123; y--; &#125; else if (nums[x] + nums[y] &lt; target) &#123; x++; &#125; &#125; return &#123;&#125;; &#125;&#125;; 方法3使用 unordered_map 查找效率要快一点若未找到 nums[target - nums[i]] 已经存在于map中, 存入nums[i], 找到则返回 时间复杂度 O(nlgn)空间复杂度 O(n)12345678910111213class Solution &#123;public: vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123; unordered_map&lt;int, int&gt; m; for (int i = 0; i &lt; nums.size(); i++) &#123; if (m.count(target - nums[i])) &#123; return &#123;m[target - nums[i]], i&#125;; &#125; m[nums[i]] = i; &#125; return &#123;&#125;; &#125;&#125;;]]></content>
       <categories>
         <category>Leetcode</category>
@@ -14,7 +26,7 @@
   </entry>
   <entry>
     <title><![CDATA[搭建 shadowsocks 服务器]]></title>
-    <url>%2F2018%2F10%2F29%2FDeploy-SSServer%2F</url>
+    <url>%2F2018%2F10%2F29%2Fbuild-ssserver%2F</url>
     <content type="text"><![CDATA[众所周知, 有些网站是不存在的 本文将向您介绍如何使用 shadowsocks 科学上网 购买 VPSVPS 服务商DigitalOceanVultrLinode 各VPS厂商请自行对比 我们选择的是 Vultr 在校生推荐使用 DigitalOcean ( GitHub 学生认证后可领取 $50 礼品码 ) 注册充值支持支付宝微信充值 购买服务器登陆后点击右上角加号选择要购买的服务器 根据需求选择服务器位置和服务器规模（一般来说 $3.5 就够用了）点击右下角的 Deploy Now, 完成服务器的购买这样, 在你的 server 列表里就能看见这台服务器了 shadowsocks 服务端打开控制台不建议使用vultr自带的网页版控制台, 因为不能复制粘贴Windows 用户请下载ssh工具, Linux 及 Mac 用户请使用 Terminal 使用ssh工具的用户输入指令ssh root@your_server_ip 输入密码 未使用ssh工具的用户请点击服务器进入服务器管理页面 点击红色框图标进入控制台 输入账号 ( root ), 密码 ( 在服务器管理页面点击 Password 后面的眼睛图标可以查看明文密码) 安装epel源, pip, shadowsocksyum -y install epel-releaseyum -y install python-pippip install shadowsocks 配置 shadowsocksshadowsocks的配置文件在 /etc/shadowsocks.json 编辑文件vi /etc/shadowsocks.json12345678910111213141516171819&#123; "server":"server_ip", //服务器地址 "local_address":"127.0.0.1", "local_port":1080, //单一端口使用如下格式 "server_port":server_port, //自行修改 "password":"server_password", //自行修改 //多端口按使用如下格式 "port_password":&#123; "port1":"password1", //自行修改 "port2":"password2" //自行修改 //... &#125;, "timeout":300, "method":"aes-256-cfb" //加密方式&#125; 启动 shadowsocks 服务前台启动ssserver -c /etc/shadowsocks.json 后台启动nohup ssserver -c /etc/shadowsocks.json &amp; shadowsocks 客户端下载客户端macOS Windows iOS Android Linuxpip install shadowsocks 配置客户端以 macOS 为例, 启动客户端, 添加服务器 输入之前写在服务端的配置信息就可以使用了, 其他系统配置方法类似 如果有不明白的地方可以通过邮件给我留言, 也可以发送邮件获取免费的服务器]]></content>
       <categories>
         <category>科学上网</category>
