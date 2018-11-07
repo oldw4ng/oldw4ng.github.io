@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="DescriptionGiven an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-02T06:43:48.008Z">
+<meta property="og:updated_time" content="2018-11-04T07:15:54.591Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1. Two Sum">
 <meta name="twitter:description" content="DescriptionGiven an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use">
@@ -400,9 +400,9 @@
 <a id="more"></a>
 <h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p>Given nums = [2, 7, 11, 15], target = 9,</p>
 <p>Because nums[0] + nums[1] = 2 + 7 = 9,<br>return [0, 1].</p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><p>两层循环, 内层循环查找是否存在一个 y 使得 x + y = target</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><p>两层循环，内层循环查找是否存在一个y使得 x + y = target</p>
 <p>时间复杂度 O(n^2)<br>空间复杂度 O(1)<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; nums.size(); x++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> y = x + <span class="number">1</span>; y &lt; nums.size(); y++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[y] == target - nums[x]) &#123;</span><br><span class="line">                    <span class="keyword">return</span> &#123;x, y&#125;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<h3 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h3><p>对数组排序, 用两个指针 (x, y), 分别指向数组的头和尾.<br>若 nums[x] + nums[y] &gt; target, y–;<br>若 nums[x] + nums[y] &lt; target, x++;</p>
+<h3 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h3><p>对数组排序，用两个指针 (x, y)，分别指向数组的头和尾。<br>若 nums[x] + nums[y] &gt; target, y–;<br>若 nums[x] + nums[y] &lt; target, x++;</p>
 <p>时间复杂度 O(nlgn)<br>空间复杂度 O(1)<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        sort(nums.begin(), nums.end());</span><br><span class="line">        <span class="keyword">int</span> x = <span class="number">0</span>, y = nums.size() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (x &lt; y) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[x] + nums[y] == target) &#123;</span><br><span class="line">                <span class="keyword">return</span> &#123;x, y&#125;;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[x] + nums[y] &gt; target) &#123;</span><br><span class="line">                y--;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[x] + nums[y] &lt; target) &#123;</span><br><span class="line">                x++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <h3 id="方法3"><a href="#方法3" class="headerlink" title="方法3"></a>方法3</h3><p>使用 unordered_map 查找效率要快一点<br>若未找到 nums[target - nums[i]] 已经存在于map中, 存入nums[i], 找到则返回</p>
 <p>时间复杂度 O(nlgn)<br>空间复杂度 O(n)<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; m;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.size(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (m.count(target - nums[i])) &#123;</span><br><span class="line">                <span class="keyword">return</span> &#123;m[target - nums[i]], i&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            m[nums[i]] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
@@ -476,6 +476,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/04/base64/" rel="prev" title="Base64 加密算法">
+                Base64 加密算法 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -564,7 +568,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -575,7 +579,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -586,7 +590,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -1276,6 +1280,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 

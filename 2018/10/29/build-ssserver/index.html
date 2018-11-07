@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://45.76.175.205/blog/_posts_img/deploy_ssserver/server_detail.png">
 <meta property="og:image" content="http://45.76.175.205/blog/_posts_img/deploy_ssserver/terminal1.png">
 <meta property="og:image" content="http://45.76.175.205/blog/_posts_img/deploy_ssserver/client_configure.png">
-<meta property="og:updated_time" content="2018-11-02T11:15:29.471Z">
+<meta property="og:updated_time" content="2018-11-07T13:42:29.473Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建 shadowsocks 服务器">
 <meta name="twitter:description" content="众所周知, 有些网站是不存在的 本文将向您介绍如何使用 shadowsocks 科学上网">
@@ -410,13 +410,13 @@
 <h3 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h3><h3 id="充值"><a href="#充值" class="headerlink" title="充值"></a>充值</h3><p>支持支付宝微信充值</p>
 <h3 id="购买服务器"><a href="#购买服务器" class="headerlink" title="购买服务器"></a>购买服务器</h3><p>登陆后点击右上角加号选择要购买的服务器</p>
 <p><img src="http://45.76.175.205/blog/_posts_img/deploy_ssserver/deploy_vps.png" alt=""></p>
-<p>根据需求选择服务器位置和服务器规模（一般来说 $3.5 就够用了）<br>点击右下角的 Deploy Now, 完成服务器的购买<br>这样, 在你的 server 列表里就能看见这台服务器了</p>
-<h2 id="shadowsocks-服务端"><a href="#shadowsocks-服务端" class="headerlink" title="shadowsocks 服务端"></a>shadowsocks 服务端</h2><h3 id="打开控制台"><a href="#打开控制台" class="headerlink" title="打开控制台"></a>打开控制台</h3><p>不建议使用vultr自带的网页版控制台, 因为不能复制粘贴<br>Windows 用户请下载ssh工具, Linux 及 Mac 用户请使用 Terminal</p>
+<p>根据需求选择服务器位置和服务器规模（一般来说 $3.5 就够用了）<br>点击右下角的 Deploy Now，完成服务器的购买<br>这样，在你的 server 列表里就能看见这台服务器了</p>
+<h2 id="shadowsocks-服务端"><a href="#shadowsocks-服务端" class="headerlink" title="shadowsocks 服务端"></a>shadowsocks 服务端</h2><h3 id="打开控制台"><a href="#打开控制台" class="headerlink" title="打开控制台"></a>打开控制台</h3><p>不建议使用vultr自带的网页版控制台, 因为不能复制粘贴<br>Windows 用户请下载ssh工具，Linux 及 Mac 用户请使用 Terminal</p>
 <p>使用ssh工具的用户输入指令<br><code>ssh root@your_server_ip</code></p>
 <p>输入密码</p>
 <p>未使用ssh工具的用户请点击服务器进入服务器管理页面</p>
 <p>点击红色框图标进入控制台<br><img src="http://45.76.175.205/blog/_posts_img/deploy_ssserver/server_detail.png" alt=""></p>
-<p>输入账号 ( root ), 密码 ( 在服务器管理页面点击 Password 后面的眼睛图标可以查看明文密码)<br><img src="http://45.76.175.205/blog/_posts_img/deploy_ssserver/terminal1.png" alt=""></p>
+<p>输入账号 ( root )，密码 ( 在服务器管理页面点击 Password 后面的眼睛图标可以查看明文密码)<br><img src="http://45.76.175.205/blog/_posts_img/deploy_ssserver/terminal1.png" alt=""></p>
 <h3 id="安装epel源-pip-shadowsocks"><a href="#安装epel源-pip-shadowsocks" class="headerlink" title="安装epel源, pip, shadowsocks"></a>安装epel源, pip, shadowsocks</h3><p><code>yum -y install epel-release</code><br><code>yum -y install python-pip</code><br><code>pip install shadowsocks</code></p>
 <h3 id="配置-shadowsocks"><a href="#配置-shadowsocks" class="headerlink" title="配置 shadowsocks"></a>配置 shadowsocks</h3><p>shadowsocks的配置文件在 /etc/shadowsocks.json</p>
 <p>编辑文件<br><code>vi /etc/shadowsocks.json</code><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "server":"server_ip",   //服务器地址</span><br><span class="line">    "local_address":"127.0.0.1",    </span><br><span class="line">    "local_port":1080,</span><br><span class="line"></span><br><span class="line">    //单一端口使用如下格式</span><br><span class="line">    "server_port":server_port,     //自行修改</span><br><span class="line">    "password":"server_password",  //自行修改</span><br><span class="line"></span><br><span class="line">    //多端口按使用如下格式</span><br><span class="line">	"port_password":&#123;</span><br><span class="line">	    "port1":"password1",    //自行修改</span><br><span class="line">	    "port2":"password2"     //自行修改</span><br><span class="line">	    //...</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">    "timeout":300,</span><br><span class="line">    "method":"aes-256-cfb"  //加密方式</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -427,10 +427,11 @@
 <p><a href="https://itunes.apple.com/us/app/wingy-http-s-socks5-proxy-utility/id1178584911" target="_blank" rel="noopener">iOS</a></p>
 <p><a href="https://github.com/shadowsocks/shadowsocks-android/releases/latest" target="_blank" rel="noopener">Android</a></p>
 <p>Linux<br><code>pip install shadowsocks</code></p>
-<h3 id="配置客户端"><a href="#配置客户端" class="headerlink" title="配置客户端"></a>配置客户端</h3><p>以 macOS 为例, 启动客户端, 添加服务器</p>
+<h3 id="配置客户端"><a href="#配置客户端" class="headerlink" title="配置客户端"></a>配置客户端</h3><p>以 macOS 为例，启动客户端, 添加服务器</p>
 <p><img src="http://45.76.175.205/blog/_posts_img/deploy_ssserver/client_configure.png" alt=""></p>
-<p>输入之前写在服务端的配置信息就可以使用了, 其他系统配置方法类似</p>
-<p>如果有不明白的地方可以通过邮件给我留言, 也可以发送邮件获取免费的服务器</p>
+<p>PAC: 只有被墙的才会走代理<br>全局代理: 所有http/socks数据经过代理服务器的转发送出</p>
+<p>输入之前写在服务端的配置信息就可以使用了，其他系统配置方法类似</p>
+<p>如果有不明白的地方可以通过邮件给我留言，也可以发送邮件获取免费的服务器</p>
 
       
     </div>
@@ -591,7 +592,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -602,7 +603,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -613,7 +614,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -1303,6 +1304,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 

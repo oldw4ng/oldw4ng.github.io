@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="encode,">
 
 
 
@@ -79,14 +79,21 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="Base64是一种基于64个可打印字符来表示二进制数据的表示方法。每个Base64代表了6位数据。因此，三个8-bit字节可以由四个6位的Base64表示。">
+<meta name="keywords" content="encode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Base64 加密算法">
+<meta property="og:url" content="http://yoursite.com/2018/11/04/base64/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Base64是一种基于64个可打印字符来表示二进制数据的表示方法。每个Base64代表了6位数据。因此，三个8-bit字节可以由四个6位的Base64表示。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-02T11:14:43.150Z">
+<meta property="og:image" content="http://45.76.175.205/blog/_posts_img/base64/example1.png">
+<meta property="og:image" content="http://45.76.175.205/blog/_posts_img/base64/example2.png">
+<meta property="og:updated_time" content="2018-11-04T09:30:51.835Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="Base64 加密算法">
+<meta name="twitter:description" content="Base64是一种基于64个可打印字符来表示二进制数据的表示方法。每个Base64代表了6位数据。因此，三个8-bit字节可以由四个6位的Base64表示。">
+<meta name="twitter:image" content="http://45.76.175.205/blog/_posts_img/base64/example1.png">
 
 
 
@@ -116,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/">
+  <link rel="canonical" href="http://yoursite.com/2018/11/04/base64/">
 
 
 
 
 
-  <title>categories | Hexo</title>
+  <title>Base64 加密算法 | Hexo</title>
   
 
 
@@ -269,40 +276,452 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/04/base64/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Ruize">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                3 categories in total
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Leetcode/">Leetcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/科学上网/">科学上网</a><span class="category-list-count">1</span></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">Base64 加密算法</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-04T12:38:46+08:00">
+                2018-11-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/04/base64/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/04/base64/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/11/04/base64/" class="leancloud_visitors" data-flag-title="Base64 加密算法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <!-- Base64 is a group of similar binary-to-text encoding schemes that represent binary data in an ASCII string format by translating it into a radix-64 representation. The term Base64 originates from a specific MIME content transfer encoding. Each Base64 digit represents exactly 6 bits of data. Three 8-bit bytes (i.e., a total of 24 bits) can therefore be represented by four 6-bit Base64 digits.
+-->
+<blockquote>
+<p>Base64是一种基于64个可打印字符来表示二进制数据的表示方法。每个Base64代表了6位数据。因此，三个8-bit字节可以由四个6位的Base64表示。</p>
+</blockquote>
+<a id="more"></a>
+<p>当要编码的字节数不能被3整除时，最后会多出1个或2个字节，那么可以按下面的方式处理：先使用0在末尾补足，若$bytes % 3 = 1$，则在最后加上两个等号；若$bytes % 3 = 2$，则在最后附加一个等号</p>
+<h3 id="Base64索引表"><a href="#Base64索引表" class="headerlink" title="Base64索引表"></a>Base64索引表</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">Index</th>
+<th style="text-align:center">Char</th>
+<th style="text-align:center">Index</th>
+<th style="text-align:center">Char</th>
+<th style="text-align:center">Index</th>
+<th style="text-align:center">Char</th>
+<th style="text-align:center">Index</th>
+<th style="text-align:center">Char</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">A</td>
+<td style="text-align:center">16</td>
+<td style="text-align:center">Q</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">g</td>
+<td style="text-align:center">48</td>
+<td style="text-align:center">w</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">B</td>
+<td style="text-align:center">17</td>
+<td style="text-align:center">R</td>
+<td style="text-align:center">33</td>
+<td style="text-align:center">h</td>
+<td style="text-align:center">49</td>
+<td style="text-align:center">x</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">C</td>
+<td style="text-align:center">18</td>
+<td style="text-align:center">S</td>
+<td style="text-align:center">34</td>
+<td style="text-align:center">i</td>
+<td style="text-align:center">50</td>
+<td style="text-align:center">y</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">D</td>
+<td style="text-align:center">19</td>
+<td style="text-align:center">T</td>
+<td style="text-align:center">35</td>
+<td style="text-align:center">j</td>
+<td style="text-align:center">51</td>
+<td style="text-align:center">z</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">E</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center">U</td>
+<td style="text-align:center">36</td>
+<td style="text-align:center">k</td>
+<td style="text-align:center">52</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">V</td>
+<td style="text-align:center">37</td>
+<td style="text-align:center">l</td>
+<td style="text-align:center">53</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">G</td>
+<td style="text-align:center">22</td>
+<td style="text-align:center">W</td>
+<td style="text-align:center">38</td>
+<td style="text-align:center">m</td>
+<td style="text-align:center">54</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">H</td>
+<td style="text-align:center">23</td>
+<td style="text-align:center">X</td>
+<td style="text-align:center">39</td>
+<td style="text-align:center">n</td>
+<td style="text-align:center">55</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">24</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">40</td>
+<td style="text-align:center">o</td>
+<td style="text-align:center">56</td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">J</td>
+<td style="text-align:center">25</td>
+<td style="text-align:center">Z</td>
+<td style="text-align:center">41</td>
+<td style="text-align:center">p</td>
+<td style="text-align:center">57</td>
+<td style="text-align:center">5</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">K</td>
+<td style="text-align:center">26</td>
+<td style="text-align:center">a</td>
+<td style="text-align:center">42</td>
+<td style="text-align:center">q</td>
+<td style="text-align:center">58</td>
+<td style="text-align:center">6</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center">L</td>
+<td style="text-align:center">27</td>
+<td style="text-align:center">b</td>
+<td style="text-align:center">43</td>
+<td style="text-align:center">r</td>
+<td style="text-align:center">59</td>
+<td style="text-align:center">7</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">28</td>
+<td style="text-align:center">c</td>
+<td style="text-align:center">44</td>
+<td style="text-align:center">s</td>
+<td style="text-align:center">60</td>
+<td style="text-align:center">8</td>
+</tr>
+<tr>
+<td style="text-align:center">13</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">29</td>
+<td style="text-align:center">d</td>
+<td style="text-align:center">45</td>
+<td style="text-align:center">t</td>
+<td style="text-align:center">61</td>
+<td style="text-align:center">9</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">30</td>
+<td style="text-align:center">e</td>
+<td style="text-align:center">46</td>
+<td style="text-align:center">u</td>
+<td style="text-align:center">62</td>
+<td style="text-align:center">+</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:center">P</td>
+<td style="text-align:center">31</td>
+<td style="text-align:center">f</td>
+<td style="text-align:center">47</td>
+<td style="text-align:center">v</td>
+<td style="text-align:center">63</td>
+<td style="text-align:center">/</td>
+</tr>
+</tbody>
+</table>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>ABC</p>
+<p><img src="http://45.76.175.205/blog/_posts_img/base64/example1.png" alt=""></p>
+<!--
+<table style="text-align:center;"><tr style="font-weight:bold;"><th scope="row"> Text (ASCII) </th><td colspan="8"> A </td><td colspan="8"> B </td><td colspan="8"> C </td></tr><th style="font-weight:bold;"> Bits </td><td> 0 </td><td> 1 </td><td> 0 </td><td> 0 </td><td> 0 </td><td> 0 </td><td> 0 </td><td> 1 </td><td> 0 </td><td> 1 </td><td> 0 </td><td> 0 </td><td> 0 </td><td> 0 </td><td> 1 </td><td> 0 </td><td> 0 </td><td> 1 </td><td> 0 </td><td> 0 </td><td> 0 </td><td> 0 </td><td> 1 </td><td> 1 </td></tr><tr><th> Sextets </th><td colspan="6"> 16 </td><td colspan="6"> 20 </td><td colspan="6"> 9 </td><td colspan="6"> 3 </td></tr><tr><th > Character </th><td colspan="6"> Q </td><td colspan="6"> U </td><td colspan="6"> J </td><td colspan="6"> D </td></tr></table>
+-->
+<p>字节不能被3整除的情况：<br><img src="http://45.76.175.205/blog/_posts_img/base64/example2.png" alt=""></p>
+<!--
+<table style="text-align:center;">
+    <tr style="font-weight:bold;">
+        <th scope="row"> Text (ASCII) </th>
+        <td colspan="8"> D </td>
+        <td colspan="8">  </td>
+        <td colspan="8">  </td></tr>
+        <th style="font-weight:bold;"> Bits </td>
+        <td> 0 </td>
+        <td> 1 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 1 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td>
+        <td> 0 </td></tr>
+    <tr>
+        <th> Sextets </th>
+        <td colspan="6"> 17 </td>
+        <td colspan="6"> 0 </td>
+        <td colspan="6"> 0 </td>
+        <td colspan="6"> 0 </td></tr>
+    <tr>
+        <th > Character </th>
+        <td colspan="6"> R </td>
+        <td colspan="6"> A </td>
+        <td colspan="6"> = </td>
+        <td colspan="6"> = </td></tr>
+</table>
+
+-->
+
       
     </div>
     
     
     
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Wang Ruize WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Wang Ruize Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/encode/" rel="tag"># encode</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/31/two-sum/" rel="next" title="1. Two Sum">
+                <i class="fa fa-chevron-left"></i> 1. Two Sum
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -311,6 +730,20 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -331,8 +764,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -404,6 +846,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Base64索引表"><span class="nav-number">1.</span> <span class="nav-text">Base64索引表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">2.</span> <span class="nav-text">例子</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -565,6 +1023,18 @@
       <script id="dsq-count-scr" src="https://wangruize.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/11/04/base64/';
+          this.page.identifier = '2018/11/04/base64/';
+          this.page.title = 'Base64 加密算法';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://wangruize.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
