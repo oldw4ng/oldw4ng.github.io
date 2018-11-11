@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Base64 加密算法]]></title>
     <url>%2F2018%2F11%2F04%2Fbase64%2F</url>
-    <content type="text"><![CDATA[Base64是一种基于64个可打印字符来表示二进制数据的表示方法。每个Base64代表了6位数据。因此，三个8-bit字节可以由四个6位的Base64表示。 当要编码的字节数不能被3整除时，最后会多出1个或2个字节，那么可以按下面的方式处理：先使用0在末尾补足，若$bytes % 3 = 1$，则在最后加上两个等号；若$bytes % 3 = 2$，则在最后附加一个等号 Base64索引表 Index Char Index Char Index Char Index Char 0 A 16 Q 32 g 48 w 1 B 17 R 33 h 49 x 2 C 18 S 34 i 50 y 3 D 19 T 35 j 51 z 4 E 20 U 36 k 52 0 5 F 21 V 37 l 53 1 6 G 22 W 38 m 54 2 7 H 23 X 39 n 55 3 8 I 24 Y 40 o 56 4 9 J 25 Z 41 p 57 5 10 K 26 a 42 q 58 6 11 L 27 b 43 r 59 7 12 M 28 c 44 s 60 8 13 N 29 d 45 t 61 9 14 O 30 e 46 u 62 + 15 P 31 f 47 v 63 / 例子ABC 字节不能被3整除的情况：]]></content>
+    <content type="text"><![CDATA[Base64是一种基于64个可打印字符来表示二进制数据的表示方法。每个Base64代表了6位数据。因此，三个8-bit字节可以由四个6位的Base64表示。 当要编码的字节数不能被3整除时，最后会多出1个或2个字节，那么可以按下面的方式处理：先使用0在末尾补足，若 bytes % 3 = 1，则在最后加上两个等号；若 bytes % 3 = 2，则在最后附加一个等号 Base64索引表IndexCharIndexCharIndexCharIndexChar0A16Q32g48w1B17R33h49x2C18S34i50y3D19T35j51z4E20U36k5205F21V37l5316G22W38m5427H23X39n5538I24Y40o5649J25Z41p57510K26a42q58611L27b43r59712M28c44s60813N29d45t61914O30e46u62+15P31f47v63/ 例子能被3整除部分 Text (ASCII) A B C Bits 0 1 0 0 0 0 0 1 0 1 0 0 0 0 1 0 0 1 0 0 0 0 1 1 Sextets 16 20 9 3 Character Q U J D 字节不能被3整除的情况： Text (ASCII) D Bits 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 Sextets 17 0 0 0 Character R A = =]]></content>
       <categories>
         <category>Algorithm</category>
       </categories>

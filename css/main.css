@@ -405,7 +405,7 @@ table {
   border-spacing: 0;
   border: 1px solid #ddd;
   font-size: 14px;
-  table-layout: fixed;
+  table-layout: auto;
   word-wrap: break-all;
 }
 table>tbody>tr:nth-of-type(odd) {
@@ -424,15 +424,20 @@ td {
 }
 th,
 td {
-  border-bottom: 3px solid #ddd;
+  border-bottom: 1px solid #ddd;
   border-right: 1px solid #eee;
 }
 th {
   padding-bottom: 10px;
   font-weight: 700;
+  white-space: nowrap;
+  font-weight: bold;
 }
 td {
   border-bottom-width: 1px;
+}
+td.center {
+  text-align: center;
 }
 html,
 body {
@@ -1683,21 +1688,6 @@ pre .javascript .function {
   display: inline-block;
   margin: 0.8em 2em 0 2em;
 }
-#wechat:hover p {
-  animation: roll 0.1s infinite linear;
-  -webkit-animation: roll 0.1s infinite linear;
-  -moz-animation: roll 0.1s infinite linear;
-}
-#alipay:hover p {
-  animation: roll 0.1s infinite linear;
-  -webkit-animation: roll 0.1s infinite linear;
-  -moz-animation: roll 0.1s infinite linear;
-}
-#bitcoin:hover p {
-  animation: roll 0.1s infinite linear;
-  -webkit-animation: roll 0.1s infinite linear;
-  -moz-animation: roll 0.1s infinite linear;
-}
 @-moz-keyframes roll {
   from {
     -webkit-transform: rotateZ(30deg);
@@ -1943,7 +1933,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #286c41;
+  background: #777fff;
 }
 .links-of-blogroll {
   font-size: 13px;
