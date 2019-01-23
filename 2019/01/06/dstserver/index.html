@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近和朋友在玩饥荒联机版，因为要一直玩的话主机和游戏要一直开着，正好手里有一台阿里云的服务器，所以就想搭一个独立服务器。">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Don&#39;t Starve Together 独立服务器搭建">
+<meta property="og:url" content="http://yoursite.com/2019/01/06/dstserver/index.html">
+<meta property="og:site_name" content="Wang&#39;s Blog">
+<meta property="og:description" content="最近和朋友在玩饥荒联机版，因为要一直玩的话主机和游戏要一直开着，正好手里有一台阿里云的服务器，所以就想搭一个独立服务器。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-23T14:36:34.842Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Don&#39;t Starve Together 独立服务器搭建">
+<meta name="twitter:description" content="最近和朋友在玩饥荒联机版，因为要一直玩的话主机和游戏要一直开着，正好手里有一台阿里云的服务器，所以就想搭一个独立服务器。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/06/dstserver/">
+
+
+
+
+
+  <title>Don't Starve Together 独立服务器搭建 | Wang's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wang's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/06/dstserver/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Ruize">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Don't Starve Together 独立服务器搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-06T10:47:52+08:00">
+                2019-01-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Server/" itemprop="url" rel="index">
+                    <span itemprop="name">Server</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/06/dstserver/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/01/06/dstserver/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/06/dstserver/" class="leancloud_visitors" data-flag-title="Don't Starve Together 独立服务器搭建">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近和朋友在玩饥荒联机版，因为要一直玩的话主机和游戏要一直开着，正好手里有一台阿里云的服务器，所以就想搭一个独立服务器。</p>
+<a id="more"></a>
+<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>根据官方给出的wiki，饥荒联机版的独立服务器对内存要求还是比较高的，而对带宽要求较低，阿里云最便宜的服务器跑个6人服务器还是没问题的</p>
+<blockquote>
+<p>Internet (Upload) = 8Kbytes / player / s<br>Ram =  around 65Mbytes/player</p>
+</blockquote>
+<p>我们使用的是阿里云的 1核 2G内存服务器</p>
+<h1 id="安装-SteamCMD"><a href="#安装-SteamCMD" class="headerlink" title="安装 SteamCMD"></a>安装 SteamCMD</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#安装依赖</span></span><br><span class="line">yum install glibc.i686 libstdc++.i686   <span class="comment">#RedHat/CentOS 64-Bit</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果报错，需要添加 `--setopt=protected_multilib=false` 选项</span></span><br><span class="line">yum install -y --<span class="built_in">setopt</span>=protected_multilib=<span class="literal">false</span> libstdc++.i686</span><br><span class="line">yum install -y glibc.i686</span><br><span class="line">yum install -y --<span class="built_in">setopt</span>=protected_multilib=<span class="literal">false</span> libcurl.i686</span><br><span class="line">ln -s /usr/lib/libcurl.so.4 /usr/lib/libcurl-gnutls.so.4</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建并切换至用户 steam</span></span><br><span class="line">useradd -m steam</span><br><span class="line">su - steam</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建 Steam 文件夹</span></span><br><span class="line">mkdir ~/Steam &amp;&amp; <span class="built_in">cd</span> ~/Steam</span><br><span class="line"></span><br><span class="line"><span class="comment">#下载并解压 SteamCMD for Linux</span></span><br><span class="line">curl -sqL <span class="string">"https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz"</span> | tar zxvf -</span><br></pre></td></tr></table></figure>
+<h1 id="安装-Don’t-Starve-Together-Dedicated-Server"><a href="#安装-Don’t-Starve-Together-Dedicated-Server" class="headerlink" title="安装 Don’t Starve Together Dedicated Server"></a>安装 Don’t Starve Together Dedicated Server</h1><p>启动 SteamCMD 并安装 dst server<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">./steamcmd.sh</span><br><span class="line"></span><br><span class="line">login anonymous</span><br><span class="line">force_install_dir /home/steam/dstserver</span><br><span class="line">app_update 343050 validate</span><br><span class="line">quit</span><br></pre></td></tr></table></figure></p>
+<p>现在 dst server 就已经下载到 <code>~/dstserver</code>中了</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="创建独立服务器文件夹"><a href="#创建独立服务器文件夹" class="headerlink" title="创建独立服务器文件夹"></a>创建独立服务器文件夹</h2><p>你需要创建如下文件夹</p>
+<ul>
+<li>~/.klei/DoNotStarveTogether/MyDediServer/Master</li>
+<li>~/.klei/DoNotStarveTogether/MyDediServer/Caves</li>
+</ul>
+<p>你可以使用如下命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.klei/DoNotStarveTogether/MyDediServer/Master</span><br><span class="line">mkdir -p ~/.klei/DoNotStarveTogether/MyDediServer/Caves</span><br></pre></td></tr></table></figure></p>
+<h2 id="创建-cluster-token-txt"><a href="#创建-cluster-token-txt" class="headerlink" title="创建 cluster_token.txt"></a>创建 cluster_token.txt</h2><p>一个简单的方法，在本地创建一个服务器，将本地服务器文件夹中的<code>cluster_token.txt</code>中的内容复制到远端服务器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'YourServerTokenHere'</span> &gt; ~/.klei/DoNotStarveTogether/MyDediServer/cluster_token.txt</span><br></pre></td></tr></table></figure></p>
+<h2 id="创建-cluster-ini"><a href="#创建-cluster-ini" class="headerlink" title="创建 cluster.ini"></a>创建 cluster.ini</h2><p>复制并保存如下内容至<br> <code>~/.klei/DoNotStarveTogether/MyDediServer/cluster.ini</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[GAMEPLAY]</span><br><span class="line">game_mode = survival</span><br><span class="line">max_players = 6</span><br><span class="line">pvp = false</span><br><span class="line">pause_when_empty = true</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[NETWORK]</span><br><span class="line">cluster_description = This server is super duper!</span><br><span class="line">cluster_name = Super Server</span><br><span class="line">cluster_intention = cooperative</span><br><span class="line">cluster_password =</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[MISC]</span><br><span class="line">console_enabled = true</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[SHARD]</span><br><span class="line">shard_enabled = true</span><br><span class="line">bind_ip = 127.0.0.1</span><br><span class="line">master_ip = 127.0.0.1</span><br><span class="line">master_port = 10889</span><br><span class="line">cluster_key = supersecretkey</span><br></pre></td></tr></table></figure>
+<p>根据你自身情况修改<code>cluster.ini</code>文件</p>
+<h2 id="创建主世界-server-ini"><a href="#创建主世界-server-ini" class="headerlink" title="创建主世界 server.ini"></a>创建主世界 server.ini</h2><p>复制并保存如下内容至<br> <code>~/.klei/DoNotStarveTogether/MyDediServer/Master/server.ini</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[NETWORK]</span><br><span class="line">server_port = 11000</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[SHARD]</span><br><span class="line">is_master = true</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[STEAM]</span><br><span class="line">master_server_port = 27018</span><br><span class="line">authentication_port = 8768</span><br></pre></td></tr></table></figure>
+<h2 id="创建洞穴-server-ini"><a href="#创建洞穴-server-ini" class="headerlink" title="创建洞穴 server.ini"></a>创建洞穴 server.ini</h2><p>复制并保存如下内容至<br> <code>~/.klei/DoNotStarveTogether/MyDediServer/Caves/server.ini</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[NETWORK]</span><br><span class="line">server_port = 11001</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[SHARD]</span><br><span class="line">is_master = false</span><br><span class="line">name = Caves</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[STEAM]</span><br><span class="line">master_server_port = 27019</span><br><span class="line">authentication_port = 8769</span><br></pre></td></tr></table></figure>
+<h2 id="创建洞穴-worldgenoverride-lua"><a href="#创建洞穴-worldgenoverride-lua" class="headerlink" title="创建洞穴 worldgenoverride.lua"></a>创建洞穴 worldgenoverride.lua</h2><p>复制并保存如下内容至<br> <code>~/.klei/DoNotStarveTogether/MyDediServer/Caves/worldgenoverride.lua</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">return &#123;</span><br><span class="line">    override_enabled = true,</span><br><span class="line">    preset = &quot;DST_CAVE&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="创建运行服务器的脚本"><a href="#创建运行服务器的脚本" class="headerlink" title="创建运行服务器的脚本"></a>创建运行服务器的脚本</h2><p>复制并保存如下内容至<br> <code>~/run_dedicated_servers.sh</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">steamcmd_dir=&quot;$HOME/steamcmd&quot;</span><br><span class="line">install_dir=&quot;$HOME/dstserver&quot;</span><br><span class="line">cluster_name=&quot;MyDediServer&quot;</span><br><span class="line">dontstarve_dir=&quot;$HOME/.klei/DoNotStarveTogether&quot;</span><br><span class="line"></span><br><span class="line">function fail()</span><br><span class="line">&#123;</span><br><span class="line">        echo Error: &quot;$@&quot; &gt;&amp;2</span><br><span class="line">        exit 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function check_for_file()</span><br><span class="line">&#123;</span><br><span class="line">    if [ ! -e &quot;$1&quot; ]; then</span><br><span class="line">            fail &quot;Missing file: $1&quot;</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cd &quot;$steamcmd_dir&quot; || fail &quot;Missing $steamcmd_dir directory!&quot;</span><br><span class="line"></span><br><span class="line">check_for_file &quot;steamcmd.sh&quot;</span><br><span class="line">check_for_file &quot;$dontstarve_dir/$cluster_name/cluster.ini&quot;</span><br><span class="line">check_for_file &quot;$dontstarve_dir/$cluster_name/cluster_token.txt&quot;</span><br><span class="line">check_for_file &quot;$dontstarve_dir/$cluster_name/Master/server.ini&quot;</span><br><span class="line">check_for_file &quot;$dontstarve_dir/$cluster_name/Caves/server.ini&quot;</span><br><span class="line"></span><br><span class="line">./steamcmd.sh +force_install_dir &quot;$install_dir&quot; +login anonymous +app_update 343050 validate +quit</span><br><span class="line"></span><br><span class="line">check_for_file &quot;$install_dir/bin&quot;</span><br><span class="line"></span><br><span class="line">cd &quot;$install_dir/bin&quot; || fail</span><br><span class="line"></span><br><span class="line">run_shared=(./dontstarve_dedicated_server_nullrenderer)</span><br><span class="line">run_shared+=(-console)</span><br><span class="line">run_shared+=(-cluster &quot;$cluster_name&quot;)</span><br><span class="line">run_shared+=(-monitor_parent_process $$)</span><br><span class="line"></span><br><span class="line">&quot;$&#123;run_shared[@]&#125;&quot; -shard Caves  | sed &apos;s/^/Caves:  /&apos; &amp;</span><br><span class="line">&quot;$&#123;run_shared[@]&#125;&quot; -shard Master | sed &apos;s/^/Master: /&apos;</span><br></pre></td></tr></table></figure>
+<p>给予脚本权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod u+x ~/run_dedicated_servers.sh</span><br></pre></td></tr></table></figure></p>
+<h2 id="世界配置"><a href="#世界配置" class="headerlink" title="世界配置"></a>世界配置</h2><p>~/.klei/DoNotStarveTogether/MyDediServer/Master/worldgenoverride.lua<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line">return &#123;</span><br><span class="line">    override_enabled = true,</span><br><span class="line">    preset = &quot;SURVIVAL_TOGETHER&quot;,       -- &quot;SURVIVAL_TOGETHER&quot;, &quot;MOD_MISSING&quot;, &quot;SURVIVAL_TOGETHER_CLASSIC&quot;, &quot;SURVIVAL_DEFAULT_PLUS&quot;, &quot;COMPLETE_DARKNESS&quot;, &quot;DST_CAVE&quot;, &quot;DST_CAVE_PLUS&quot;</span><br><span class="line">    overrides = &#123;</span><br><span class="line">        -- default is &quot;never&quot;, &quot;rare&quot;, &quot;default&quot;, &quot;often&quot;, &quot;always&quot;</span><br><span class="line"></span><br><span class="line">        -- MISC</span><br><span class="line">        task_set = &quot;default&quot;,           -- &quot;classic&quot;, &quot;default&quot;, &quot;cave_default&quot;</span><br><span class="line">        start_location = &quot;default&quot;,     -- &quot;caves&quot;, &quot;default&quot;, &quot;plus&quot;, &quot;darkness&quot;</span><br><span class="line">        world_size = &quot;huge&quot;,         -- &quot;small&quot;, &quot;medium&quot;, &quot;default&quot;, &quot;huge&quot;</span><br><span class="line">        branching = &quot;default&quot;,          -- &quot;never&quot;, &quot;least&quot;, &quot;default&quot;, &quot;most&quot;</span><br><span class="line">        loop = &quot;default&quot;,               -- &quot;never&quot;, &quot;default&quot;, &quot;always&quot;</span><br><span class="line">        autumn = &quot;verylongseason&quot;,             -- &quot;noseason&quot;, &quot;veryshortseason&quot;, &quot;shortseason&quot;, &quot;default&quot;, &quot;longseason&quot;, &quot;verylongseason&quot;, &quot;random&quot;</span><br><span class="line">        winter = &quot;default&quot;,             -- &quot;noseason&quot;, &quot;veryshortseason&quot;, &quot;shortseason&quot;, &quot;default&quot;, &quot;longseason&quot;, &quot;verylongseason&quot;, &quot;random&quot;</span><br><span class="line">        spring = &quot;default&quot;,             -- &quot;noseason&quot;, &quot;veryshortseason&quot;, &quot;shortseason&quot;, &quot;default&quot;, &quot;longseason&quot;, &quot;verylongseason&quot;, &quot;random&quot;</span><br><span class="line">        summer = &quot;default&quot;,             -- &quot;noseason&quot;, &quot;veryshortseason&quot;, &quot;shortseason&quot;, &quot;default&quot;, &quot;longseason&quot;, &quot;verylongseason&quot;, &quot;random&quot;</span><br><span class="line">        season_start = &quot;default&quot;,       -- &quot;default&quot;, &quot;winter&quot;, &quot;spring&quot;, &quot;summer&quot;, &quot;autumnorspring&quot;, &quot;winterorsummer&quot;, &quot;random&quot;</span><br><span class="line">        day = &quot;default&quot;,                -- &quot;default&quot;, &quot;longday&quot;, &quot;longdusk&quot;, &quot;longnight&quot;, &quot;noday&quot;, &quot;nodusk&quot;, &quot;nonight&quot;, &quot;onlyday&quot;, &quot;onlydusk&quot;, &quot;onlynight&quot;</span><br><span class="line">        weather = &quot;default&quot;,</span><br><span class="line">        earthquakes = &quot;default&quot;,</span><br><span class="line">        lightning = &quot;default&quot;,</span><br><span class="line">        frograin = &quot;default&quot;,</span><br><span class="line">        wildfires = &quot;default&quot;,</span><br><span class="line">        touchstone = &quot;default&quot;,</span><br><span class="line">        regrowth = &quot;default&quot;,           -- &quot;veryslow&quot;, &quot;slow&quot;, &quot;default&quot;, &quot;fast&quot;, &quot;veryfast&quot;</span><br><span class="line">        cavelight = &quot;default&quot;,          -- &quot;veryslow&quot;, &quot;slow&quot;, &quot;default&quot;, &quot;fast&quot;, &quot;veryfast&quot;</span><br><span class="line">        boons = &quot;default&quot;,</span><br><span class="line">        prefabswaps_start = &quot;default&quot;,  -- &quot;classic&quot;, &quot;default&quot;, &quot;highly random&quot;</span><br><span class="line">        prefabswaps = &quot;default&quot;,        -- &quot;none&quot;, &quot;few&quot;, &quot;default&quot;, &quot;many&quot;, &quot;max&quot;</span><br><span class="line"></span><br><span class="line">        -- RESOURCES</span><br><span class="line">        flowers = &quot;often&quot;,</span><br><span class="line">        grass = &quot;often&quot;,</span><br><span class="line">        sapling = &quot;often&quot;,</span><br><span class="line">        marshbush = &quot;often&quot;,</span><br><span class="line">        tumbleweed = &quot;often&quot;,</span><br><span class="line">        reeds = &quot;often&quot;,</span><br><span class="line">        trees = &quot;often&quot;,</span><br><span class="line">        flint = &quot;often&quot;,</span><br><span class="line">        rock = &quot;often&quot;,</span><br><span class="line">        rock_ice = &quot;often&quot;,</span><br><span class="line">        meteorspawner = &quot;often&quot;,</span><br><span class="line">        meteorshowers = &quot;often&quot;,</span><br><span class="line">        mushtree = &quot;often&quot;,</span><br><span class="line">        fern = &quot;often&quot;,</span><br><span class="line">        flower_cave = &quot;often&quot;,</span><br><span class="line">        wormlights = &quot;often&quot;,</span><br><span class="line"></span><br><span class="line">        -- UNPREPARED</span><br><span class="line">        berrybush = &quot;often&quot;,</span><br><span class="line">        carrot = &quot;often&quot;,</span><br><span class="line">        mushroom = &quot;often&quot;,</span><br><span class="line">        cactus = &quot;often&quot;,</span><br><span class="line">        banana = &quot;often&quot;,</span><br><span class="line">        lichen = &quot;often&quot;,</span><br><span class="line"></span><br><span class="line">        -- ANIMALS</span><br><span class="line">        rabbits = &quot;often&quot;,</span><br><span class="line">        moles = &quot;often&quot;,</span><br><span class="line">        butterfly = &quot;often&quot;,</span><br><span class="line">        birds = &quot;often&quot;,</span><br><span class="line">        buzzard = &quot;often&quot;,</span><br><span class="line">        catcoon = &quot;often&quot;,</span><br><span class="line">        perd = &quot;often&quot;,</span><br><span class="line">        pigs = &quot;often&quot;,</span><br><span class="line">        lightninggoat = &quot;often&quot;,</span><br><span class="line">        beefalo = &quot;always&quot;,</span><br><span class="line">        beefaloheat = &quot;often&quot;,</span><br><span class="line">        hunt = &quot;often&quot;,</span><br><span class="line">        alternatehunt = &quot;often&quot;,</span><br><span class="line">        penguins = &quot;often&quot;,</span><br><span class="line">        cave_ponds = &quot;often&quot;,</span><br><span class="line">        ponds = &quot;often&quot;,</span><br><span class="line">        bees = &quot;often&quot;,</span><br><span class="line">        angrybees = &quot;often&quot;,</span><br><span class="line">        tallbirds = &quot;often&quot;,</span><br><span class="line">        slurper = &quot;often&quot;,</span><br><span class="line">        bunnymen = &quot;often&quot;,</span><br><span class="line">        slurtles = &quot;often&quot;,</span><br><span class="line">        rocky = &quot;often&quot;,</span><br><span class="line">        monkey = &quot;often&quot;,</span><br><span class="line"></span><br><span class="line">        -- MONSTERS</span><br><span class="line">        spiders = &quot;default&quot;,</span><br><span class="line">        cave_spiders = &quot;default&quot;,</span><br><span class="line">        hounds = &quot;default&quot;,</span><br><span class="line">        houndmound = &quot;default&quot;,</span><br><span class="line">        merm = &quot;default&quot;,</span><br><span class="line">        tentacles = &quot;default&quot;,</span><br><span class="line">        chess = &quot;default&quot;,</span><br><span class="line">        lureplants = &quot;default&quot;,</span><br><span class="line">        walrus = &quot;default&quot;,</span><br><span class="line">        liefs = &quot;default&quot;,</span><br><span class="line">        deciduousmonster = &quot;default&quot;,</span><br><span class="line">        krampus = &quot;default&quot;,</span><br><span class="line">        bearger = &quot;default&quot;,</span><br><span class="line">        deerclops = &quot;default&quot;,</span><br><span class="line">        goosemoose = &quot;default&quot;,</span><br><span class="line">        dragonfly = &quot;default&quot;,</span><br><span class="line">        bats = &quot;default&quot;,</span><br><span class="line">        fissure = &quot;default&quot;,</span><br><span class="line">        worms = &quot;default&quot;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="mod配置"><a href="#mod配置" class="headerlink" title="mod配置"></a>mod配置</h2><p>下载mod至 <code>~/dstserver/mods</code></p>
+<p>建议在本地创建一个服务器，然后复制<code>modoverrides.lua</code>文件内容到 <code>~/.klei/DoNotStarveTogether/MyDediServer/Master</code></p>
+<h1 id="启动服务器"><a href="#启动服务器" class="headerlink" title="启动服务器"></a>启动服务器</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/run_dedicated_servers.sh</span><br></pre></td></tr></table></figure>
+<p>引用:</p>
+<ul>
+<li><a href="https://developer.valvesoftware.com/wiki/SteamCMD#Linux" target="_blank" rel="noopener">SteamCMD - Valve Developer Community</a></li>
+<li><a href="https://forums.kleientertainment.com/forums/topic/64441-dedicated-server-quick-setup-guide-linux/" target="_blank" rel="noopener">Dedicated Server Quick Setup Guide - Linux</a></li>
+<li><a href="https://blessing.studio/deploy-dont-starve-together-dedicated-server/" target="_blank" rel="noopener">饥荒联机版独立服务器搭建踩坑记录</a></li>
+<li><a href="https://dontstarve.gamepedia.com/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers" target="_blank" rel="noopener">Guides/Don’t Starve Together Dedicated Servers</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Wang Ruize WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Wang Ruize Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+    
+      <div id="redpack" style="display: inline-block">
+        <img id="redpack_qr" src="/images/redpack.png" alt="Wang Ruize Redpack">
+        <p>Redpack</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/04/base64/" rel="next" title="Base64 加密算法">
+                <i class="fa fa-chevron-left"></i> Base64 加密算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Wang Ruize">
+            
+              <p class="site-author-name" itemprop="name">Wang Ruize</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:ruizewang96@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-SteamCMD"><span class="nav-number">2.</span> <span class="nav-text">安装 SteamCMD</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-Don’t-Starve-Together-Dedicated-Server"><span class="nav-number">3.</span> <span class="nav-text">安装 Don’t Starve Together Dedicated Server</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">4.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建独立服务器文件夹"><span class="nav-number">4.1.</span> <span class="nav-text">创建独立服务器文件夹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-cluster-token-txt"><span class="nav-number">4.2.</span> <span class="nav-text">创建 cluster_token.txt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-cluster-ini"><span class="nav-number">4.3.</span> <span class="nav-text">创建 cluster.ini</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建主世界-server-ini"><span class="nav-number">4.4.</span> <span class="nav-text">创建主世界 server.ini</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建洞穴-server-ini"><span class="nav-number">4.5.</span> <span class="nav-text">创建洞穴 server.ini</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建洞穴-worldgenoverride-lua"><span class="nav-number">4.6.</span> <span class="nav-text">创建洞穴 worldgenoverride.lua</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建运行服务器的脚本"><span class="nav-number">4.7.</span> <span class="nav-text">创建运行服务器的脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#世界配置"><span class="nav-number">4.8.</span> <span class="nav-text">世界配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mod配置"><span class="nav-number">4.9.</span> <span class="nav-text">mod配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动服务器"><span class="nav-number">5.</span> <span class="nav-text">启动服务器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Ruize</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://wangruize.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2019/01/06/dstserver/';
+          this.page.identifier = '2019/01/06/dstserver/';
+          this.page.title = 'Don\'t Starve Together 独立服务器搭建';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://wangruize.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("bhfwFY0CtucK8dwlm6ImdepU-MdYXbMMI", "RNXKDBhPn5iz4VNQqaT4DnyJ");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
