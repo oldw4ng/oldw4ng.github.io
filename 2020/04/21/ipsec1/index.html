@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="network,ipsec,">
 
 
 
@@ -79,13 +79,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="老王的神秘商店">
-<meta property="og:url" content="http://yoursite.com/tags/Linux/index.html">
+<meta name="description" content="本篇将对 IPsec 与 strongSwan 进行简单介绍，并给出配置和使用方法，下一篇将对报文进行抓包分析IKE的过程。所有配置文件，证书文件及抓包报文将于文章末尾给出下载压缩包，以供参考。">
+<meta name="keywords" content="network,ipsec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IPsec 与 strongSwan 1">
+<meta property="og:url" content="http://yoursite.com/2020/04/21/ipsec1/index.html">
 <meta property="og:site_name" content="老王的神秘商店">
+<meta property="og:description" content="本篇将对 IPsec 与 strongSwan 进行简单介绍，并给出配置和使用方法，下一篇将对报文进行抓包分析IKE的过程。所有配置文件，证书文件及抓包报文将于文章末尾给出下载压缩包，以供参考。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://img.oldw4ng.com/test_env.png">
+<meta property="og:updated_time" content="2020-04-21T10:14:15.786Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="老王的神秘商店">
+<meta name="twitter:title" content="IPsec 与 strongSwan 1">
+<meta name="twitter:description" content="本篇将对 IPsec 与 strongSwan 进行简单介绍，并给出配置和使用方法，下一篇将对报文进行抓包分析IKE的过程。所有配置文件，证书文件及抓包报文将于文章末尾给出下载压缩包，以供参考。">
+<meta name="twitter:image" content="http://img.oldw4ng.com/test_env.png">
 
 
 
@@ -115,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/Linux/">
+  <link rel="canonical" href="http://yoursite.com/2020/04/21/ipsec1/">
 
 
 
 
 
-  <title>Tag: Linux | 老王的神秘商店</title>
+  <title>IPsec 与 strongSwan 1 | 老王的神秘商店</title>
   
 
 
@@ -140,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -266,78 +273,252 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Linux<small>Tag</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/21/ipsec1/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="oldw4ng">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="老王的神秘商店">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/01/06/dstserver/" itemprop="url">
-              
-                <span itemprop="name">Don't Starve Together 独立服务器搭建</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">IPsec 与 strongSwan 1</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-06T10:47:52+08:00" content="2019-01-06">
-          01-06
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-21T16:48:01+08:00">
+                2020-04-21
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/network/" itemprop="url" rel="index">
+                    <span itemprop="name">network</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/21/ipsec1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/21/ipsec1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/04/21/ipsec1/" class="leancloud_visitors" data-flag-title="IPsec 与 strongSwan 1">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/10/29/ssserver/" itemprop="url">
-              
-                <span itemprop="name">搭建 shadowsocks 服务器</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-10-29T11:46:46+08:00" content="2018-10-29">
-          10-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <p>本篇将对 IPsec 与 strongSwan 进行简单介绍，并给出配置和使用方法，下一篇将对报文进行抓包分析IKE的过程。所有配置文件，证书文件及抓包报文将于文章末尾给出下载压缩包，以供参考。</p>
+<a id="more"></a>
+<h2 id="IPsec-简介"><a href="#IPsec-简介" class="headerlink" title="IPsec 简介"></a>IPsec 简介</h2><p>互联网安全协议（英语：Internet Protocol Security，缩写：IPsec）是一个协议包，透过对IP协议的分组进行加密和认证来保护IP协议的网络传输协议族（一些相互关联的协议的集合）。</p>
+<p>IPsec主要由以下协议组成：一、认证头（AH），为IP数据报提供无连接数据完整性、消息认证以及防重放攻击保护；二、封装安全载荷（ESP），提供机密性、数据源认证、无连接完整性、防重放和有限的传输流（traffic-flow）机密性；三、安全关联（SA），提供算法和数据包，提供AH、ESP操作所需的参数。</p>
+<h2 id="strongSwan-简介"><a href="#strongSwan-简介" class="headerlink" title="strongSwan 简介"></a>strongSwan 简介</h2><p>strongSwan 是一个一款基于 FreeS/WAN 的 IPsec的开源解决方案。对客户端和服务器提供了加密和验证功能。独特的功能是使用X.509 属性证书来实现基于组成员身份的访问控制方案。StrongSwan可与其他IPsec实现互操作，包括各种Microsoft Windows和macOS VPN客户端。模块化的StrongSwan 5.0分支完全实现了网络密钥交换（IKEv2）协议，由RFC 5996定义。</p>
+<h2 id="strongSwan-安装"><a href="#strongSwan-安装" class="headerlink" title="strongSwan 安装"></a>strongSwan 安装</h2><p>本文使用两台 CentOS 7 虚拟机进行测试</p>
+<p><img src="http://img.oldw4ng.com/test_env.png" alt="test env"></p>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p><code>wget http://download.strongswan.org/strongswan-x.x.x.tar.bz2</code></p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p><code>tar xjvf strongswan-x.x.x.tar.bz2; cd strongswan-x.x.x</code></p>
+<h3 id="configure"><a href="#configure" class="headerlink" title="configure"></a>configure</h3><p><code>./configure --prefix=/usr --sysconfdir=/etc --&lt;your-options&gt;</code></p>
+<h3 id="build-amp-amp-install"><a href="#build-amp-amp-install" class="headerlink" title="build &amp;&amp; install"></a>build &amp;&amp; install</h3><p><code>make &amp;&amp; make install</code></p>
+<h2 id="证书生成与安装"><a href="#证书生成与安装" class="headerlink" title="证书生成与安装"></a>证书生成与安装</h2><h3 id="证书生成"><a href="#证书生成" class="headerlink" title="证书生成"></a>证书生成</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成CA证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; cakey.pem	<span class="comment"># 创建私钥</span></span><br><span class="line">ipsec pki --self --<span class="keyword">in</span> cakey.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=Oldw4ng CA"</span> --ca --lifetime 365 --outform pem &gt; cacert.pem	<span class="comment"># 自签发CA证书</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成服务器证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; serverkey.pem</span><br><span class="line">ipsec pki --pub --<span class="keyword">in</span> serverkey.pem --outform pem &gt; serverpub.pem</span><br><span class="line">ipsec pki --issue --lifetime 30 --cacert cacert.pem --cakey cakey.pem --<span class="keyword">in</span> serverpub.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=10.211.55.17"</span> --san=<span class="string">"10.211.55.17"</span> --flag serverAuth --flag ikeIntermediate --outform pem &gt; servercert.pem</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成客户端证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; clientkey.pem</span><br><span class="line">ipsec pki --pub --<span class="keyword">in</span> clientkey.pem --outform pem &gt; clientpub.pem</span><br><span class="line">ipsec pki --issue --lifetime 30 --cacert cacert.pem --cakey cakey.pem --<span class="keyword">in</span> clientpub.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=10.211.55.16"</span> --outform pem &gt; clientcert.pem</span><br></pre></td></tr></table></figure>
+<h3 id="证书安装"><a href="#证书安装" class="headerlink" title="证书安装"></a>证书安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vm1 (10.211.55.16)</span></span><br><span class="line">mv cacert.pem /etc/swanctl/x509ca/</span><br><span class="line">mv clientkey.pem /etc/swanctl/rsa/</span><br><span class="line">mv clientcert.pem /etc/swanctl/x509/</span><br><span class="line"></span><br><span class="line"><span class="comment"># vm2 (10.211.55.17)</span></span><br><span class="line">mv cacert.pem /etc/swanctl/x509ca/</span><br><span class="line">mv serverkey.pem /etc/swanctl/rsa/</span><br><span class="line">mv servercert.pem /etc/swanctl/x509/</span><br></pre></td></tr></table></figure>
+<h2 id="strongSwan-配置"><a href="#strongSwan-配置" class="headerlink" title="strongSwan 配置"></a>strongSwan 配置</h2><p>本文使用 swanctl 进行配置</p>
+<h3 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># cat /etc/swanctl/conf.d/client.conf</span></span><br><span class="line">connections &#123;</span><br><span class="line">    <span class="built_in">test</span> &#123;</span><br><span class="line">        remote_addrs = 10.211.55.17</span><br><span class="line"></span><br><span class="line">        <span class="built_in">local</span> &#123;</span><br><span class="line">            auth = pubkey</span><br><span class="line">            certs = clientcert.pem</span><br><span class="line">        &#125;</span><br><span class="line">        remote &#123;</span><br><span class="line">            auth = pubkey</span><br><span class="line">            id = 10.211.55.17</span><br><span class="line">        &#125;</span><br><span class="line">        children &#123;</span><br><span class="line">            <span class="built_in">test</span> &#123;</span><br><span class="line"></span><br><span class="line">                esp_proposals = aes256-sha256-x25519</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        version = 2</span><br><span class="line">        mobike = no</span><br><span class="line">        proposals = aes256-sha256-x25519</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># cat /etc/swanctl/conf.d/server.conf</span></span><br><span class="line">connections &#123;</span><br><span class="line">    <span class="built_in">test</span> &#123;</span><br><span class="line">        local_addrs = 10.211.55.17</span><br><span class="line"></span><br><span class="line">        <span class="built_in">local</span> &#123;</span><br><span class="line">            auth = pubkey</span><br><span class="line">            certs = servercert.pem</span><br><span class="line">            id = 10.211.55.17</span><br><span class="line">        &#125;</span><br><span class="line">        remote &#123;</span><br><span class="line">            auth = pubkey</span><br><span class="line">        &#125;</span><br><span class="line">        children &#123;</span><br><span class="line">            <span class="built_in">test</span> &#123;</span><br><span class="line">                remote_ts = 10.211.55.0/24</span><br><span class="line">                esp_proposals = aes256-sha256-x25519</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        version = 2</span><br><span class="line">        mobike = no</span><br><span class="line">        proposals = aes256-sha256-x25519</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="strongSwan-启动"><a href="#strongSwan-启动" class="headerlink" title="strongSwan 启动"></a>strongSwan 启动</h2><h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>打开 500 和 4500 端口</p>
+<h3 id="启动进程"><a href="#启动进程" class="headerlink" title="启动进程"></a>启动进程</h3><p><code>/usr/libexec/ipsec/charon &amp;</code></p>
+<h3 id="加载配置"><a href="#加载配置" class="headerlink" title="加载配置"></a>加载配置</h3><p><code>swanctl --load-all</code></p>
+<h3 id="启动ipsec"><a href="#启动ipsec" class="headerlink" title="启动ipsec"></a>启动ipsec</h3><p><code>ipsec up &lt;conn&gt;</code></p>
+<h3 id="关闭ipsec"><a href="#关闭ipsec" class="headerlink" title="关闭ipsec"></a>关闭ipsec</h3><p><code>ipsec down &lt;conn&gt;</code></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.strongswan.org/" target="_blank" rel="noopener">strongSwan.org</a></p>
+<p>[2] <a href="https://en.wikipedia.org/wiki/StrongSwan" target="_blank" rel="noopener">strongSwan Wiki</a></p>
+<p>[3] <a href="http://www.beijinghuayu.com.cn/centos7配置strongswan/" target="_blank" rel="noopener">Centos7配置strongswan</a></p>
+<h2 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h2><p><a href="http://file.oldw4ng.com/test_strongswan.zip" target="_blank" rel="noopener">证书配置抓包文件</a></p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="oldw4ng WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="oldw4ng Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+    
+      <div id="redpack" style="display: inline-block">
+        <img id="redpack_qr" src="/images/redpack.png" alt="oldw4ng Redpack">
+        <p>Redpack</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/network/" rel="tag"># network</a>
+          
+            <a href="/tags/ipsec/" rel="tag"># ipsec</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/06/dstserver/" rel="next" title="Don't Starve Together 独立服务器搭建">
+                <i class="fa fa-chevron-left"></i> Don't Starve Together 独立服务器搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -345,6 +526,20 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -365,8 +560,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -438,6 +642,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPsec-简介"><span class="nav-number">1.</span> <span class="nav-text">IPsec 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-简介"><span class="nav-number">2.</span> <span class="nav-text">strongSwan 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-安装"><span class="nav-number">3.</span> <span class="nav-text">strongSwan 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载"><span class="nav-number">3.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解压"><span class="nav-number">3.2.</span> <span class="nav-text">解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configure"><span class="nav-number">3.3.</span> <span class="nav-text">configure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#build-amp-amp-install"><span class="nav-number">3.4.</span> <span class="nav-text">build &amp;&amp; install</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书生成与安装"><span class="nav-number">4.</span> <span class="nav-text">证书生成与安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#证书生成"><span class="nav-number">4.1.</span> <span class="nav-text">证书生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证书安装"><span class="nav-number">4.2.</span> <span class="nav-text">证书安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-配置"><span class="nav-number">5.</span> <span class="nav-text">strongSwan 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Client"><span class="nav-number">5.1.</span> <span class="nav-text">Client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Server"><span class="nav-number">5.2.</span> <span class="nav-text">Server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-启动"><span class="nav-number">6.</span> <span class="nav-text">strongSwan 启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙"><span class="nav-number">6.1.</span> <span class="nav-text">防火墙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动进程"><span class="nav-number">6.2.</span> <span class="nav-text">启动进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载配置"><span class="nav-number">6.3.</span> <span class="nav-text">加载配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动ipsec"><span class="nav-number">6.4.</span> <span class="nav-text">启动ipsec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭ipsec"><span class="nav-number">6.5.</span> <span class="nav-text">关闭ipsec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附件"><span class="nav-number">8.</span> <span class="nav-text">附件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -578,6 +798,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -595,6 +819,18 @@
       <script id="dsq-count-scr" src="https://wangruize.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2020/04/21/ipsec1/';
+          this.page.identifier = '2020/04/21/ipsec1/';
+          this.page.title = 'IPsec 与 strongSwan 1';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://wangruize.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
