@@ -87,12 +87,12 @@
 <meta property="og:site_name" content="老王的神秘商店">
 <meta property="og:description" content="本篇将对 IPsec 与 strongSwan 进行简单介绍，并给出配置和使用方法，下一篇将对报文进行抓包分析IKE的过程。所有配置文件，证书文件及抓包报文将于文章末尾给出下载压缩包，以供参考。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://img.oldw4ng.com/test_env.png">
-<meta property="og:updated_time" content="2020-04-21T10:14:15.786Z">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/test_env.png">
+<meta property="og:updated_time" content="2020-04-22T09:44:20.623Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPsec 与 strongSwan 1">
 <meta name="twitter:description" content="本篇将对 IPsec 与 strongSwan 进行简单介绍，并给出配置和使用方法，下一篇将对报文进行抓包分析IKE的过程。所有配置文件，证书文件及抓包报文将于文章末尾给出下载压缩包，以供参考。">
-<meta name="twitter:image" content="http://img.oldw4ng.com/test_env.png">
+<meta name="twitter:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/test_env.png">
 
 
 
@@ -403,7 +403,7 @@
 <p>IPsec主要由以下协议组成：一、认证头（AH），为IP数据报提供无连接数据完整性、消息认证以及防重放攻击保护；二、封装安全载荷（ESP），提供机密性、数据源认证、无连接完整性、防重放和有限的传输流（traffic-flow）机密性；三、安全关联（SA），提供算法和数据包，提供AH、ESP操作所需的参数。</p>
 <h2 id="strongSwan-简介"><a href="#strongSwan-简介" class="headerlink" title="strongSwan 简介"></a>strongSwan 简介</h2><p>strongSwan 是一个一款基于 FreeS/WAN 的 IPsec的开源解决方案。对客户端和服务器提供了加密和验证功能。独特的功能是使用X.509 属性证书来实现基于组成员身份的访问控制方案。StrongSwan可与其他IPsec实现互操作，包括各种Microsoft Windows和macOS VPN客户端。模块化的StrongSwan 5.0分支完全实现了网络密钥交换（IKEv2）协议，由RFC 5996定义。</p>
 <h2 id="strongSwan-安装"><a href="#strongSwan-安装" class="headerlink" title="strongSwan 安装"></a>strongSwan 安装</h2><p>本文使用两台 CentOS 7 虚拟机进行测试</p>
-<p><img src="http://img.oldw4ng.com/test_env.png" alt="test env"></p>
+<p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/test_env.png" alt="test env"></p>
 <h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p><code>wget http://download.strongswan.org/strongswan-x.x.x.tar.bz2</code></p>
 <h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p><code>tar xjvf strongswan-x.x.x.tar.bz2; cd strongswan-x.x.x</code></p>
 <h3 id="configure"><a href="#configure" class="headerlink" title="configure"></a>configure</h3><p><code>./configure --prefix=/usr --sysconfdir=/etc --&lt;your-options&gt;</code></p>
