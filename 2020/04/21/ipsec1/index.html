@@ -1,134 +1,58 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion" lang>
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-CN">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
 
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="network,ipsec,">
-
-
-
-
-
-
-
-
-
-
-<meta name="description" content="本篇将对 IPsec 与 strongSwan 进行简单介绍，并给出配置和使用方法，下一篇将对报文进行抓包分析IKE的过程。所有配置文件，证书文件及抓包报文将于文章末尾给出下载压缩包，以供参考。">
-<meta name="keywords" content="network,ipsec">
+  <meta name="description" content="本文主要介绍 IPsec 协议和 IKEv2 的原理，strongSwan 的配置及使用直接跳到下一篇">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IPsec 与 strongSwan 1">
+<meta property="og:title" content="IPsec 基本原理">
 <meta property="og:url" content="http://yoursite.com/2020/04/21/ipsec1/index.html">
 <meta property="og:site_name" content="老王的神秘商店">
-<meta property="og:description" content="本篇将对 IPsec 与 strongSwan 进行简单介绍，并给出配置和使用方法，下一篇将对报文进行抓包分析IKE的过程。所有配置文件，证书文件及抓包报文将于文章末尾给出下载压缩包，以供参考。">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/test_env.png">
-<meta property="og:updated_time" content="2020-04-22T09:44:20.623Z">
+<meta property="og:description" content="本文主要介绍 IPsec 协议和 IKEv2 的原理，strongSwan 的配置及使用直接跳到下一篇">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ah_header.png">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/esp_header.png">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ipsec_transport.png">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ipsec_tunnel.png">
+<meta property="article:published_time" content="2020-04-21T08:48:01.000Z">
+<meta property="article:modified_time" content="2020-04-26T03:00:46.974Z">
+<meta property="article:author" content="oldw4ng">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="ipsec">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="IPsec 与 strongSwan 1">
-<meta name="twitter:description" content="本篇将对 IPsec 与 strongSwan 进行简单介绍，并给出配置和使用方法，下一篇将对报文进行抓包分析IKE的过程。所有配置文件，证书文件及抓包报文将于文章末尾给出下载压缩包，以供参考。">
-<meta name="twitter:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/test_env.png">
+<meta name="twitter:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ah_header.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/04/21/ipsec1/">
 
 
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Pisces',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: 'Author'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
   };
 </script>
 
-
-
-  <link rel="canonical" href="http://yoursite.com/2020/04/21/ipsec1/">
-
-
-
-
-
-  <title>IPsec 与 strongSwan 1 | 老王的神秘商店</title>
+  <title>IPsec 基本原理 | 老王的神秘商店</title>
   
 
 
@@ -136,257 +60,221 @@
 
 
 
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="default">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">老王的神秘商店</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-      
-        <p class="site-subtitle"></p>
-      
   </div>
 
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">老王的神秘商店</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
   </div>
 </div>
+
+
+
 
 <nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
-            
-            Home
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
-            
-            Categories
-          </a>
-        </li>
-      
-        
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
         <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            Tags
-          </a>
-        </li>
-      
-        
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
-            
-            Archives
-          </a>
-        </li>
-      
 
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
-            
-            Search
-          </a>
-        </li>
-      
-    </ul>
-  
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
-  
-    <div class="site-search">
-      
-  <div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
-    </div>
-  </div>
-  <div id="local-search-result"></div>
-</div>
+  </li>
+        <li class="menu-item menu-item-about">
 
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
 
-
-    </div>
-  
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
 </nav>
 
 
 
- </div>
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
     </header>
 
-    <main id="main" class="main">
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          <div id="content" class="content">
+          
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/21/ipsec1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="oldw4ng">
-      <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="oldw4ng">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="老王的神秘商店">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">IPsec 与 strongSwan 1</h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          IPsec 基本原理
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-21T16:48:01+08:00">
-                2020-04-21
-              </time>
-            
+              <span class="post-meta-item-text">发表于</span>
 
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/network/" itemprop="url" rel="index">
-                    <span itemprop="name">network</span>
-                  </a>
-                </span>
-
-                
-                
-              
+              <time title="创建时间：2020-04-21 16:48:01" itemprop="dateCreated datePublished" datetime="2020-04-21T16:48:01+08:00">2020-04-21</time>
             </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/04/21/ipsec1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/21/ipsec1/" itemprop="commentCount"></span>
-                </a>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
               </span>
-            
-          
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
+                </span>
+            </span>
 
           
-          
-             <span id="/2020/04/21/ipsec1/" class="leancloud_visitors" data-flag-title="IPsec 与 strongSwan 1">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/04/21/ipsec1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/21/ipsec1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
 
         </div>
       </header>
-    
 
     
     
@@ -394,338 +282,361 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
-        <p>本篇将对 IPsec 与 strongSwan 进行简单介绍，并给出配置和使用方法，下一篇将对报文进行抓包分析IKE的过程。所有配置文件，证书文件及抓包报文将于文章末尾给出下载压缩包，以供参考。</p>
+        <p>本文主要介绍 IPsec 协议和 IKEv2 的原理，strongSwan 的配置及使用直接跳到下一篇</p>
 <a id="more"></a>
 <h2 id="IPsec-简介"><a href="#IPsec-简介" class="headerlink" title="IPsec 简介"></a>IPsec 简介</h2><p>互联网安全协议（英语：Internet Protocol Security，缩写：IPsec）是一个协议包，透过对IP协议的分组进行加密和认证来保护IP协议的网络传输协议族（一些相互关联的协议的集合）。</p>
 <p>IPsec主要由以下协议组成：一、认证头（AH），为IP数据报提供无连接数据完整性、消息认证以及防重放攻击保护；二、封装安全载荷（ESP），提供机密性、数据源认证、无连接完整性、防重放和有限的传输流（traffic-flow）机密性；三、安全关联（SA），提供算法和数据包，提供AH、ESP操作所需的参数。</p>
-<h2 id="strongSwan-简介"><a href="#strongSwan-简介" class="headerlink" title="strongSwan 简介"></a>strongSwan 简介</h2><p>strongSwan 是一个一款基于 FreeS/WAN 的 IPsec的开源解决方案。对客户端和服务器提供了加密和验证功能。独特的功能是使用X.509 属性证书来实现基于组成员身份的访问控制方案。StrongSwan可与其他IPsec实现互操作，包括各种Microsoft Windows和macOS VPN客户端。模块化的StrongSwan 5.0分支完全实现了网络密钥交换（IKEv2）协议，由RFC 5996定义。</p>
-<h2 id="strongSwan-安装"><a href="#strongSwan-安装" class="headerlink" title="strongSwan 安装"></a>strongSwan 安装</h2><p>本文使用两台 CentOS 7 虚拟机进行测试</p>
-<p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/test_env.png" alt="test env"></p>
-<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p><code>wget http://download.strongswan.org/strongswan-x.x.x.tar.bz2</code></p>
-<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p><code>tar xjvf strongswan-x.x.x.tar.bz2; cd strongswan-x.x.x</code></p>
-<h3 id="configure"><a href="#configure" class="headerlink" title="configure"></a>configure</h3><p><code>./configure --prefix=/usr --sysconfdir=/etc --&lt;your-options&gt;</code></p>
-<h3 id="build-amp-amp-install"><a href="#build-amp-amp-install" class="headerlink" title="build &amp;&amp; install"></a>build &amp;&amp; install</h3><p><code>make &amp;&amp; make install</code></p>
-<h2 id="证书生成与安装"><a href="#证书生成与安装" class="headerlink" title="证书生成与安装"></a>证书生成与安装</h2><h3 id="证书生成"><a href="#证书生成" class="headerlink" title="证书生成"></a>证书生成</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成CA证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; cakey.pem	<span class="comment"># 创建私钥</span></span><br><span class="line">ipsec pki --self --<span class="keyword">in</span> cakey.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=Oldw4ng CA"</span> --ca --lifetime 365 --outform pem &gt; cacert.pem	<span class="comment"># 自签发CA证书</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成服务器证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; serverkey.pem</span><br><span class="line">ipsec pki --pub --<span class="keyword">in</span> serverkey.pem --outform pem &gt; serverpub.pem</span><br><span class="line">ipsec pki --issue --lifetime 30 --cacert cacert.pem --cakey cakey.pem --<span class="keyword">in</span> serverpub.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=10.211.55.17"</span> --san=<span class="string">"10.211.55.17"</span> --flag serverAuth --flag ikeIntermediate --outform pem &gt; servercert.pem</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成客户端证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; clientkey.pem</span><br><span class="line">ipsec pki --pub --<span class="keyword">in</span> clientkey.pem --outform pem &gt; clientpub.pem</span><br><span class="line">ipsec pki --issue --lifetime 30 --cacert cacert.pem --cakey cakey.pem --<span class="keyword">in</span> clientpub.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=10.211.55.16"</span> --outform pem &gt; clientcert.pem</span><br></pre></td></tr></table></figure>
-<h3 id="证书安装"><a href="#证书安装" class="headerlink" title="证书安装"></a>证书安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vm1 (10.211.55.16)</span></span><br><span class="line">mv cacert.pem /etc/swanctl/x509ca/</span><br><span class="line">mv clientkey.pem /etc/swanctl/rsa/</span><br><span class="line">mv clientcert.pem /etc/swanctl/x509/</span><br><span class="line"></span><br><span class="line"><span class="comment"># vm2 (10.211.55.17)</span></span><br><span class="line">mv cacert.pem /etc/swanctl/x509ca/</span><br><span class="line">mv serverkey.pem /etc/swanctl/rsa/</span><br><span class="line">mv servercert.pem /etc/swanctl/x509/</span><br></pre></td></tr></table></figure>
-<h2 id="strongSwan-配置"><a href="#strongSwan-配置" class="headerlink" title="strongSwan 配置"></a>strongSwan 配置</h2><p>本文使用 swanctl 进行配置</p>
-<h3 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># cat /etc/swanctl/conf.d/client.conf</span></span><br><span class="line">connections &#123;</span><br><span class="line">    <span class="built_in">test</span> &#123;</span><br><span class="line">        remote_addrs = 10.211.55.17</span><br><span class="line"></span><br><span class="line">        <span class="built_in">local</span> &#123;</span><br><span class="line">            auth = pubkey</span><br><span class="line">            certs = clientcert.pem</span><br><span class="line">        &#125;</span><br><span class="line">        remote &#123;</span><br><span class="line">            auth = pubkey</span><br><span class="line">            id = 10.211.55.17</span><br><span class="line">        &#125;</span><br><span class="line">        children &#123;</span><br><span class="line">            <span class="built_in">test</span> &#123;</span><br><span class="line"></span><br><span class="line">                esp_proposals = aes256-sha256-x25519</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        version = 2</span><br><span class="line">        mobike = no</span><br><span class="line">        proposals = aes256-sha256-x25519</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># cat /etc/swanctl/conf.d/server.conf</span></span><br><span class="line">connections &#123;</span><br><span class="line">    <span class="built_in">test</span> &#123;</span><br><span class="line">        local_addrs = 10.211.55.17</span><br><span class="line"></span><br><span class="line">        <span class="built_in">local</span> &#123;</span><br><span class="line">            auth = pubkey</span><br><span class="line">            certs = servercert.pem</span><br><span class="line">            id = 10.211.55.17</span><br><span class="line">        &#125;</span><br><span class="line">        remote &#123;</span><br><span class="line">            auth = pubkey</span><br><span class="line">        &#125;</span><br><span class="line">        children &#123;</span><br><span class="line">            <span class="built_in">test</span> &#123;</span><br><span class="line">                remote_ts = 10.211.55.0/24</span><br><span class="line">                esp_proposals = aes256-sha256-x25519</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        version = 2</span><br><span class="line">        mobike = no</span><br><span class="line">        proposals = aes256-sha256-x25519</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="strongSwan-启动"><a href="#strongSwan-启动" class="headerlink" title="strongSwan 启动"></a>strongSwan 启动</h2><h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>打开 500 和 4500 端口</p>
-<h3 id="启动进程"><a href="#启动进程" class="headerlink" title="启动进程"></a>启动进程</h3><p><code>/usr/libexec/ipsec/charon &amp;</code></p>
-<h3 id="加载配置"><a href="#加载配置" class="headerlink" title="加载配置"></a>加载配置</h3><p><code>swanctl --load-all</code></p>
-<h3 id="启动ipsec"><a href="#启动ipsec" class="headerlink" title="启动ipsec"></a>启动ipsec</h3><p><code>ipsec up &lt;conn&gt;</code></p>
-<h3 id="关闭ipsec"><a href="#关闭ipsec" class="headerlink" title="关闭ipsec"></a>关闭ipsec</h3><p><code>ipsec down &lt;conn&gt;</code></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.strongswan.org/" target="_blank" rel="noopener">strongSwan.org</a></p>
-<p>[2] <a href="https://en.wikipedia.org/wiki/StrongSwan" target="_blank" rel="noopener">strongSwan Wiki</a></p>
-<p>[3] <a href="http://www.beijinghuayu.com.cn/centos7配置strongswan/" target="_blank" rel="noopener">Centos7配置strongswan</a></p>
-<h2 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h2><p><a href="http://file.oldw4ng.com/test_strongswan.zip" target="_blank" rel="noopener">证书配置抓包文件</a></p>
+<p>IPSec通过加密与验证等方式，从以下几个方面保障了用户业务数据在Internet中的安全传输：</p>
+<ul>
+<li>数据来源验证：接收方验证发送方身份是否合法。</li>
+<li>数据加密：发送方对数据进行加密，以密文的形式在Internet上传送，接收方对接收的加密数据进行解密后处理或直接转发。</li>
+<li>数据完整性：接收方对接收的数据进行验证，以判定报文是否被篡改。</li>
+<li>抗重放：接收方拒绝旧的或重复的数据包，防止恶意用户通过重复发送捕获到的数据包所进行的攻击。</li>
+</ul>
+<h2 id="IPsec-协议框架"><a href="#IPsec-协议框架" class="headerlink" title="IPsec 协议框架"></a>IPsec 协议框架</h2><h3 id="安全联盟"><a href="#安全联盟" class="headerlink" title="安全联盟"></a>安全联盟</h3><p>安全联盟SA（Security Association）是通信对等体间对某些要素的协定，它描述了对等体间如何利用安全服务（例如加密）进行安全的通信。这些要素包括对等体间使用何种安全协议、需要保护的数据流特征、对等体间传输的数据的封装模式、协议采用的加密和验证算法，以及用于数据安全转换、传输的密钥和SA的生存周期等。</p>
+<p>IPSec安全传输数据的前提是在IPSec对等体（即运行IPSec协议的两个端点）之间成功建立安全联盟。IPSec安全联盟简称IPSec SA，由一个三元组来唯一标识，这个三元组包括安全参数索引SPI（Security Parameter Index）、目的IP地址和使用的安全协议号（AH或ESP）。其中，SPI是为唯一标识SA而生成的一个32位比特的数值，它被封装在AH和ESP头中。</p>
+<p>IPSec SA是单向的逻辑连接，通常成对建立（Inbound和Outbound）。因此两个IPSec对等体之间的双向通信，最少需要建立一对IPSec SA形成一个安全互通的IPSec隧道，分别对两个方向的数据流进行安全保护。</p>
+<p>另外，IPSec SA的个数还与安全协议相关。如果只使用AH或ESP来保护两个对等体之间的流量，则对等体之间就有两个SA，每个方向上一个。如果对等体同时使用了AH和ESP，那么对等体之间就需要四个SA，每个方向上两个，分别对应AH和ESP。</p>
+<h3 id="安全协议"><a href="#安全协议" class="headerlink" title="安全协议"></a>安全协议</h3><p>IPSec使用认证头AH（Authentication Header）和封装安全载荷ESP（Encapsulating Security Payload）两种IP传输层协议来提供认证或加密等安全服务。</p>
+<ul>
+<li><p>AH协议</p>
+<p>AH仅支持认证功能，不支持加密功能。AH在每一个数据包的标准IP报头后面添加一个AH报文头。AH对数据包和认证密钥进行Hash计算，接收方收到带有计算结果的数据包后，执行同样的Hash计算并与原计算结果比较，传输过程中对数据的任何更改将使计算结果无效，这样就提供了数据来源认证和数据完整性校验。AH协议的完整性验证范围为整个IP报文。</p>
+</li>
+<li><p>ESP协议</p>
+<p>ESP支持认证和加密功能。ESP在每一个数据包的标准IP报头后面添加一个ESP报文头，并在数据包后面追加一个ESP尾（ESP Trailer和ESP Auth data）。与AH不同的是，ESP将数据中的有效载荷进行加密后再封装到数据包中，以保证数据的机密性，但ESP没有对IP头的内容进行保护，除非IP头被封装在ESP内部（采用隧道模式）。</p>
+</li>
+</ul>
+<p><strong>AH协议与ESP协议比较</strong></p>
+<table>
+<thead>
+<tr>
+<th>安全特性</th>
+<th>AH</th>
+<th style="text-align:left">ESP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>协议号</td>
+<td>51</td>
+<td style="text-align:left">50</td>
+</tr>
+<tr>
+<td>数据完整性校验</td>
+<td>支持（验证整个IP报文）</td>
+<td style="text-align:left">支持（传输模式：不验证IP头，隧道模式：验证整个IP报文）</td>
+</tr>
+<tr>
+<td>数据源验证</td>
+<td>支持</td>
+<td style="text-align:left">支持</td>
+</tr>
+<tr>
+<td>数据加密</td>
+<td>不支持</td>
+<td style="text-align:left">支持</td>
+</tr>
+<tr>
+<td>防报文重放攻击</td>
+<td>支持</td>
+<td style="text-align:left">支持</td>
+</tr>
+<tr>
+<td>IPSec NAT-T（NAT穿越）</td>
+<td>不支持</td>
+<td style="text-align:left">支持</td>
+</tr>
+</tbody>
+</table>
+<p><strong>报文头结构</strong></p>
+<p><strong>AH报文头结构</strong></p>
+<p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ah_header.png" alt=""></p>
+<p><strong>ESP报文头结构</strong></p>
+<p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/esp_header.png" alt=""></p>
+<h3 id="封装模式"><a href="#封装模式" class="headerlink" title="封装模式"></a>封装模式</h3><p>封装模式是指将AH或ESP相关的字段插入到原始IP报文中，以实现对报文的认证和加密，封装模式有传输模式和隧道模式两种。</p>
+<h4 id="传输模式"><a href="#传输模式" class="headerlink" title="传输模式"></a>传输模式</h4><p>在传输模式中，AH头或ESP头被插入到IP头与传输层协议头之间，保护TCP/UDP/ICMP负载。由于传输模式未添加额外的IP头，所以原始报文中的IP地址在加密后报文的IP头中可见。以TCP报文为例，原始报文经过传输模式封装后，报文格式如下图所示。<br><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ipsec_transport.png" alt="img"></p>
+<p>传输模式下，与AH协议相比，ESP协议的完整性验证范围不包括IP头，无法保证IP头的安全。</p>
+<h4 id="隧道模式"><a href="#隧道模式" class="headerlink" title="隧道模式"></a>隧道模式</h4><p>在隧道模式下，AH头或ESP头被插到原始IP头之前，另外生成一个新的报文头放到AH头或ESP头之前，保护IP头和负载。以TCP报文为例，原始报文经隧道模式封装后的报文结构如下图所示。<br><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ipsec_tunnel.png" alt="img"></p>
+<p>隧道模式下，与AH协议相比，ESP协议的完整性验证范围不包括新IP头，无法保证新IP头的安全。</p>
+<h4 id="传输模式和隧道模式比较"><a href="#传输模式和隧道模式比较" class="headerlink" title="传输模式和隧道模式比较"></a>传输模式和隧道模式比较</h4><p>传输模式和隧道模式的区别在于：</p>
+<ul>
+<li>从安全性来讲，隧道模式优于传输模式。它可以完全地对原始IP数据报进行验证和加密。隧道模式下可以隐藏内部IP地址，协议类型和端口。</li>
+<li>从性能来讲，隧道模式因为有一个额外的IP头，所以它将比传输模式占用更多带宽。</li>
+<li>从场景来讲，传输模式主要应用于两台主机或一台主机和一台VPN网关之间通信；隧道模式主要应用于两台VPN网关之间或一台主机与一台VPN网关之间的通信。</li>
+</ul>
+<p>当安全协议同时采用AH和ESP时，AH和ESP协议必须采用相同的封装模式。</p>
+<h3 id="加密和验证"><a href="#加密和验证" class="headerlink" title="加密和验证"></a>加密和验证</h3><p>IPSec提供了两种安全机制：加密和验证。加密机制保证数据的机密性，防止数据在传输过程中被窃听；验证机制能保证数据真实可靠，防止数据在传输过程中被仿冒和篡改。</p>
+<h4 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h4><p>IPSec采用对称加密算法对数据进行加密和解密。数据发送方和接收方使用相同的密钥进行加密、解密。</p>
+<p>用于加密和解密的对称密钥可以手工配置，也可以通过IKE协议自动协商生成。</p>
+<p>常用的对称加密算法包括：数据加密标准DES（Data Encryption Standard）、3DES（Triple Data Encryption Standard）、先进加密标准AES（Advanced Encryption Standard）。其中，DES和3DES算法安全性低，存在安全风险，不推荐使用。</p>
+<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><p>IPSec的加密功能，无法验证解密后的信息是否是原始发送的信息或完整。IPSec采用HMAC（Keyed-Hash Message Authentication Code）功能，比较数字签名进行数据包完整性和真实性验证。</p>
+<p>通常情况下，加密和验证通常配合使用。在IPSec发送方，加密后的报文通过验证算法和对称密钥生成数字签名，IP报文和数字签名同时发给对端；在IPSec接收方，使用相同的验证算法和对称密钥对加密报文进行处理，同样得到签名，然后比较数字签名进行数据完整性和真实性验证，验证不通过的报文直接丢弃，验证通过的报文再进行解密。</p>
+<p>同加密一样，用于验证的对称密钥也可以手工配置，或者通过IKE协议自动协商生成。</p>
+<p>常用的验证算法包括：消息摘要MD5（Message Digest 5）、安全散列算法SHA1（Secure Hash Algorithm 1）、SHA2。其中，MD5、SHA1算法安全性低，存在安全风险，不推荐使用。</p>
+<h3 id="密钥交换"><a href="#密钥交换" class="headerlink" title="密钥交换"></a>密钥交换</h3><p>密钥交换有两种解决方式：</p>
+<ul>
+<li><p>带外共享密钥</p>
+<p>在发送、接收设备上手工配置静态的加密、验证密钥。双方通过带外共享的方式（例如通过电话或邮件方式）保证密钥一致性。这种方式的缺点是安全性低，可扩展性差，在点到多点组网中配置密钥的工作量成倍增加。另外，为提升网络安全性需要周期性修改密钥，这种方式下也很难实施。</p>
+</li>
+<li><p>使用一个安全的密钥分发协议</p>
+<p>通过IKE协议自动协商密钥。IKE采用DH（Diffie-Hellman）算法在不安全的网络上安全地分发密钥。这种方式配置简单，可扩展性好，特别是在大型动态的网络环境下此优点更加突出。同时，通信双方通过交换密钥交换材料来计算共享的密钥，即使第三方截获了双方用于计算密钥的所有交换数据，也无法计算出真正的密钥，这样极大地提高了安全性。</p>
+</li>
+</ul>
+<h4 id="IKE协议"><a href="#IKE协议" class="headerlink" title="IKE协议"></a>IKE协议</h4><p>因特网密钥交换IKE（Internet Key Exchange）协议建立在Internet安全联盟和密钥管理协议ISAKMP定义的框架上，是基于UDP（User Datagram Protocol）的应用层协议。它为IPSec提供了自动协商密钥、建立IPSec安全联盟的服务，能够简化IPSec的配置和维护工作。</p>
+<p>对等体之间建立一个IKE SA完成身份验证和密钥信息交换后，在IKE SA的保护下，根据配置的AH/ESP安全协议等参数协商出一对IPSec SA。此后，对等体间的数据将在IPSec隧道中加密传输。</p>
+<p>IKE SA是一个双向的逻辑连接，两个对等体间只建立一个IKE SA。</p>
+<h4 id="IKE安全机制"><a href="#IKE安全机制" class="headerlink" title="IKE安全机制"></a>IKE安全机制</h4><p>IKE具有一套自保护机制，可以在网络上安全地认证身份、分发密钥、建立IPSec SA：</p>
+<ul>
+<li><p>身份认证</p>
+<p>身份认证确认通信双方的身份（对等体的IP地址或名称），包括预共享密钥PSK（pre-shared key）认证、数字证书RSA（rsa-signature）认证。</p>
+<ul>
+<li><p>在预共享密钥认证中，通信双方采用共享的密钥对报文进行Hash计算，判断双方的计算结果是否相同。如果相同，则认证通过；否则认证失败。</p>
+<p>当有1个对等体对应多个对等体时，需要为每个对等体配置预共享的密钥。该方法在小型网络中容易建立，但安全性较低。</p>
+</li>
+<li><p>在数字证书认证中，通信双方使用CA证书进行数字证书合法性验证，双方各有自己的公钥（网络上传输）和私钥（自己持有）。发送方对原始报文进行Hash计算，并用自己的私钥对报文计算结果进行加密，生成数字签名。接收方使用发送方的公钥对数字签名进行解密，并对报文进行Hash计算，判断计算结果与解密后的结果是否相同。如果相同，则认证通过；否则认证失败。</p>
+<p>使用数字证书安全性高，但需要CA来颁发数字证书，适合在大型网络中使用。</p>
+</li>
+</ul>
+<p>IKE支持的认证算法有：MD5、SHA2-256。</p>
+</li>
+<li><p>身份保护</p>
+<p>身份数据在密钥产生之后加密传送，实现了对身份数据的保护。</p>
+<p>IKE支持的加密算法有：DES、3DES、AES-128、AES-192、AES-256。</p>
+</li>
+<li><p>DH</p>
+<p>DH是一种公共密钥交换方法，它用于产生密钥材料，并通过ISAKMP消息在发送和接收设备之间进行密钥材料交换。然后，两端设备各自计算出完全相同的对称密钥。该对称密钥用于计算加密和验证的密钥。在任何时候，通信双方都不交换真正的密钥。DH密钥交换是IKE的精髓所在。</p>
+</li>
+<li><p>PFS</p>
+<p>完善的前向安全性PFS（Perfect Forward Secrecy）通过执行一次额外的DH交换，确保即使IKE SA中使用的密钥被泄露，IPSec SA中使用的密钥也不会受到损害。</p>
+</li>
+</ul>
+<p>为了保证更好的安全性，建议使用SHA2-256认证算法和AES加密算法。</p>
+<h2 id="IPsec-基本原理"><a href="#IPsec-基本原理" class="headerlink" title="IPsec 基本原理"></a>IPsec 基本原理</h2><p>IPSec通过在IPSec对等体间建立双向安全联盟形成一个安全互通的IPSec隧道，并通过定义IPSec保护的数据流将要保护的数据引入该IPSec隧道，然后对流经IPSec隧道的数据通过安全协议进行加密和验证，进而实现在Internet上安全传输指定的数据。</p>
+<p>IPSec安全联盟可以通过IKEv1或IKEv2协议自动协商建立。</p>
+<h3 id="IKEv2-安全联盟协商过程"><a href="#IKEv2-安全联盟协商过程" class="headerlink" title="IKEv2 安全联盟协商过程"></a>IKEv2 安全联盟协商过程</h3><p>建立一对IPSec SA，IKEv2正常情况使用2次交换共4条消息就可以完成一对IPSec SA的建立，如果要求建立的IPSec SA大于一对时，每一对IPSec SA只需额外增加1次创建子SA交换，也就是2条消息就可以完成。</p>
+<p>IKEv2定义了三种交换：初始交换（Initial Exchanges）、创建子SA交换（Create_Child_SA Exchange）以及通知交换（Informational Exchange）。</p>
+<h4 id="初始交换"><a href="#初始交换" class="headerlink" title="初始交换"></a>初始交换</h4><p>正常情况下，IKEv2通过初始交换就可以完成第一对IPSec SA的协商建立。IKEv2初始交换对应IKEv1的第一阶段，初始交换包含两次交换四条消息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Initiator                         Responder</span><br><span class="line">-------------------------------------------------------------------</span><br><span class="line">HDR, SAi1, KEi, Ni    --&gt;</span><br><span class="line">                             &lt;--  HDR, SAr1, KEr, Nr, [CERTREQ]</span><br><span class="line"></span><br><span class="line">HDR, SK &#123;IDi, [CERT,] [CERTREQ,]</span><br><span class="line">    [IDr,] AUTH, SAi2,</span><br><span class="line">    TSi, TSr&#125; 	      --&gt;</span><br><span class="line">                             &lt;--  HDR, SK &#123;IDr, [CERT,] AUTH,</span><br><span class="line">                                      SAr2, TSi, TSr&#125;</span><br></pre></td></tr></table></figure>
+<p>IKE_SA_INIT交换，以明文方式完成IKE SA的参数协商，包括协商加密和验证算法，交换临时随机数和DH交换。IKE_SA_INIT交换后生成一个共享密钥材料，通过这个共享密钥材料可以衍生出IPSec SA的所有密钥。</p>
+<p>称为IKE_AUTH交换，以加密方式完成身份认证、对前两条信息的认证和IPSec SA的参数协商。IKEv2支持RSA签名认证、预共享密钥认证以及扩展认证方法EAP（Extensible Authentication Protocol）。发起者通过在消息3中省去认证载荷来表明需要使用EAP认证。</p>
+<h4 id="创建子SA交换"><a href="#创建子SA交换" class="headerlink" title="创建子SA交换"></a>创建子SA交换</h4><p>当一个IKE SA需要创建多对IPSec SA时，需要使用创建子SA交换来协商多于一对的IPSec SA。另外，创建子SA交换还可以用于IKE SA的重协商。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Initiator                         Responder</span><br><span class="line">-------------------------------------------------------------------</span><br><span class="line">HDR, SK &#123;SA, Ni, [KEi],</span><br><span class="line">           TSi, TSr&#125;  --&gt;</span><br><span class="line">                             &lt;--  HDR, SK &#123;SA, Nr, [KEr],</span><br><span class="line">                                      TSi, TSr&#125;</span><br></pre></td></tr></table></figure>
+<p>创建子SA交换包含一个交换两条消息，交换的发起者可以是初始交换的协商发起方，也可以是初始交换的协商响应方。创建子SA交换必须在初始交换完成后进行，交换消息由初始交换协商的密钥进行保护。</p>
+<h4 id="通知交换"><a href="#通知交换" class="headerlink" title="通知交换"></a>通知交换</h4><p>运行IKE协商的两端有时会传递一些控制信息，例如错误信息或者通告信息，这些信息在IKEv2中是通过通知交换完成的。</p>
+<p>通知交换必须在IKE SA保护下进行，也就是说通知交换只能发生在初始交换之后。控制信息可能是IKE SA的，那么通知交换必须由该IKE SA来保护进行；也可能是某子SA的，那么该通知交换必须由生成该子SA的IKE SA来保护进行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Initiator                         Responder</span><br><span class="line">-------------------------------------------------------------------</span><br><span class="line">HDR, SK &#123;[N,] [D,]</span><br><span class="line">    [CP,] ...&#125;  --&gt;</span><br><span class="line">                             &lt;--  HDR, SK &#123;[N,] [D,]</span><br><span class="line">                                      [CP], ...&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1]    <a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100116968/b436f4a5" target="_blank" rel="noopener">S600-E V200R019C00 配置指南-VPN</a></p>
+<p>[2]    RFC5996 <a href="https://tools.ietf.org/html/rfc5996" target="_blank" rel="noopener">Internet Key Exchange Protocol Version 2 (IKEv2)</a></p>
 
-      
     </div>
+
     
     
     
 
-    
-
-    
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div></div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>Donate</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="oldw4ng WeChat Pay">
-        <p>WeChat Pay</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.jpg" alt="oldw4ng Alipay">
-        <p>Alipay</p>
-      </div>
-    
-
-    
-
-    
-      <div id="redpack" style="display: inline-block">
-        <img id="redpack_qr" src="/images/redpack.png" alt="oldw4ng Redpack">
-        <p>Redpack</p>
-      </div>
-    
-
-  </div>
-</div>
-
-      </div>
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/network/" rel="tag"># network</a>
-          
-            <a href="/tags/ipsec/" rel="tag"># ipsec</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/01/06/dstserver/" rel="next" title="Don't Starve Together 独立服务器搭建">
-                <i class="fa fa-chevron-left"></i> Don't Starve Together 独立服务器搭建
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"># 网络协议</a>
+              <a href="/tags/ipsec/" rel="tag"># ipsec</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/10/31/two-sum/" rel="prev" title="1. Two Sum">
+      <i class="fa fa-chevron-left"></i> 1. Two Sum
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/23/ipsec2/" rel="next" title="strongSwan 配置与使用">
+      strongSwan 配置与使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
 
 
           </div>
           
-
-
-          
-
-  
-    <div class="comments" id="comments">
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
     </div>
   </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="oldw4ng">
-            
-              <p class="site-author-name" itemprop="name">oldw4ng</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">5</span>
-                  <span class="site-state-item-name">posts</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
-                  <span class="site-state-item-name">categories</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
-                  <span class="site-state-item-name">tags</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-
-          
-            <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="mailto:ruizewang96@gmail.com" target="_blank" title="E-Mail">
-                      
-                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                  </span>
-                
-            </div>
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPsec-简介"><span class="nav-number">1.</span> <span class="nav-text">IPsec 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-简介"><span class="nav-number">2.</span> <span class="nav-text">strongSwan 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-安装"><span class="nav-number">3.</span> <span class="nav-text">strongSwan 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载"><span class="nav-number">3.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解压"><span class="nav-number">3.2.</span> <span class="nav-text">解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configure"><span class="nav-number">3.3.</span> <span class="nav-text">configure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#build-amp-amp-install"><span class="nav-number">3.4.</span> <span class="nav-text">build &amp;&amp; install</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书生成与安装"><span class="nav-number">4.</span> <span class="nav-text">证书生成与安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#证书生成"><span class="nav-number">4.1.</span> <span class="nav-text">证书生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证书安装"><span class="nav-number">4.2.</span> <span class="nav-text">证书安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-配置"><span class="nav-number">5.</span> <span class="nav-text">strongSwan 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Client"><span class="nav-number">5.1.</span> <span class="nav-text">Client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Server"><span class="nav-number">5.2.</span> <span class="nav-text">Server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-启动"><span class="nav-number">6.</span> <span class="nav-text">strongSwan 启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙"><span class="nav-number">6.1.</span> <span class="nav-text">防火墙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动进程"><span class="nav-number">6.2.</span> <span class="nav-text">启动进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载配置"><span class="nav-number">6.3.</span> <span class="nav-text">加载配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动ipsec"><span class="nav-number">6.4.</span> <span class="nav-text">启动ipsec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭ipsec"><span class="nav-number">6.5.</span> <span class="nav-text">关闭ipsec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附件"><span class="nav-number">8.</span> <span class="nav-text">附件</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">oldw4ng</span>
-
-  
-</div>
-
-
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-  </div>
-
   
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPsec-简介"><span class="nav-number">1.</span> <span class="nav-text">IPsec 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPsec-协议框架"><span class="nav-number">2.</span> <span class="nav-text">IPsec 协议框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安全联盟"><span class="nav-number">2.1.</span> <span class="nav-text">安全联盟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全协议"><span class="nav-number">2.2.</span> <span class="nav-text">安全协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#封装模式"><span class="nav-number">2.3.</span> <span class="nav-text">封装模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#传输模式"><span class="nav-number">2.3.1.</span> <span class="nav-text">传输模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隧道模式"><span class="nav-number">2.3.2.</span> <span class="nav-text">隧道模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#传输模式和隧道模式比较"><span class="nav-number">2.3.3.</span> <span class="nav-text">传输模式和隧道模式比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加密和验证"><span class="nav-number">2.4.</span> <span class="nav-text">加密和验证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加密"><span class="nav-number">2.4.1.</span> <span class="nav-text">加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证"><span class="nav-number">2.4.2.</span> <span class="nav-text">验证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#密钥交换"><span class="nav-number">2.5.</span> <span class="nav-text">密钥交换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IKE协议"><span class="nav-number">2.5.1.</span> <span class="nav-text">IKE协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IKE安全机制"><span class="nav-number">2.5.2.</span> <span class="nav-text">IKE安全机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPsec-基本原理"><span class="nav-number">3.</span> <span class="nav-text">IPsec 基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IKEv2-安全联盟协商过程"><span class="nav-number">3.1.</span> <span class="nav-text">IKEv2 安全联盟协商过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#初始交换"><span class="nav-number">3.1.1.</span> <span class="nav-text">初始交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建子SA交换"><span class="nav-number">3.1.2.</span> <span class="nav-text">创建子SA交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通知交换"><span class="nav-number">3.1.3.</span> <span class="nav-text">通知交换</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="oldw4ng"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">oldw4ng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:ruizewang96@gmail.com" title="E-Mail → mailto:ruizewang96@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/oldw4ng" title="GitHub → https://github.com/oldw4ng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">oldw4ng</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
 
 
 
@@ -736,595 +647,38 @@
 
   
 
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-    
-      <script id="dsq-count-scr" src="https://wangruize.disqus.com/count.js" async></script>
-    
-
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2020/04/21/ipsec1/';
-          this.page.identifier = '2020/04/21/ipsec1/';
-          this.page.title = 'IPsec 与 strongSwan 1';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://wangruize.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
-    
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (/json$/i.test(search_path)) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
-            };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
-
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
-
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('1');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://wangruize.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2020/04/21/ipsec1/";
+    this.page.identifier = "2020/04/21/ipsec1/";
+    this.page.title = "IPsec 基本原理";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
       });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://wangruize.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
     }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
-
-
-
-
-
-  
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
-  <script>AV.initialize("bhfwFY0CtucK8dwlm6ImdepU-MdYXbMMI", "RNXKDBhPn5iz4VNQqaT4DnyJ");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
-
-  
-
-  
-
-  
-  
-
-  
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
-
-
-  
-
-  
+  });
+</script>
 
 </body>
 </html>
