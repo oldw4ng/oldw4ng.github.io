@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[IKEv2 过程]]></title>
-    <url>%2F2020%2F04%2F24%2Fipsec3%2F</url>
-    <content type="text"><![CDATA[12345678910111213141516171819Notation Payload-----------------------------------------AUTH AuthenticationCERT CertificateCERTREQ Certificate RequestCP ConfigurationD DeleteEAP Extensible AuthenticationHDR IKE header (not a payload)IDi Identification - InitiatorIDr Identification - ResponderKE Key ExchangeNi, Nr NonceN NotifySA Security AssociationSK Encrypted and AuthenticatedTSi Traffic Selector - InitiatorTSr Traffic Selector - ResponderV Vendor ID]]></content>
-      <categories>
-        <category>网络</category>
-      </categories>
-      <tags>
-        <tag>网络协议</tag>
-        <tag>ipsec</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[strongSwan 配置与使用]]></title>
     <url>%2F2020%2F04%2F23%2Fipsec2%2F</url>
     <content type="text"><![CDATA[本文主要介绍了 IPsec 的一个开源解决方案 storngSwan 的配置和使用方法。 strongSwan 简介strongSwan 是一个一款基于 FreeS/WAN 的 IPsec的开源解决方案。对客户端和服务器提供了加密和验证功能。独特的功能是使用X.509 属性证书来实现基于组成员身份的访问控制方案。StrongSwan可与其他IPsec实现互操作，包括各种Microsoft Windows和macOS VPN客户端。模块化的StrongSwan 5.0分支完全实现了网络密钥交换（IKEv2）协议，由RFC 5996定义。 strongSwan 安装用两台 CentOS 7 虚拟机进行测试 下载wget http://download.strongswan.org/strongswan-x.x.x.tar.bz2 解压tar xjvf strongswan-x.x.x.tar.bz2; cd strongswan-x.x.x configure./configure --prefix=/usr --sysconfdir=/etc --&lt;your-options&gt; build &amp;&amp; installmake &amp;&amp; make install 证书生成与安装证书生成12345678910111213# 生成CA证书ipsec pki --gen --outform pem &gt; cakey.pem # 创建私钥ipsec pki --self --in cakey.pem --dn "C=CN, O=Oldw4ng, CN=Oldw4ng CA" --ca --lifetime 365 --outform pem &gt; cacert.pem # 自签发CA证书# 生成服务器证书ipsec pki --gen --outform pem &gt; serverkey.pemipsec pki --pub --in serverkey.pem --outform pem &gt; serverpub.pemipsec pki --issue --lifetime 30 --cacert cacert.pem --cakey cakey.pem --in serverpub.pem --dn "C=CN, O=Oldw4ng, CN=10.211.55.17" --san="10.211.55.17" --flag serverAuth --flag ikeIntermediate --outform pem &gt; servercert.pem# 生成客户端证书ipsec pki --gen --outform pem &gt; clientkey.pemipsec pki --pub --in clientkey.pem --outform pem &gt; clientpub.pemipsec pki --issue --lifetime 30 --cacert cacert.pem --cakey cakey.pem --in clientpub.pem --dn "C=CN, O=Oldw4ng, CN=10.211.55.16" --outform pem &gt; clientcert.pem 证书安装123456789# vm1 (10.211.55.16)mv cacert.pem /etc/swanctl/x509ca/mv clientkey.pem /etc/swanctl/rsa/mv clientcert.pem /etc/swanctl/x509/# vm2 (10.211.55.17)mv cacert.pem /etc/swanctl/x509ca/mv serverkey.pem /etc/swanctl/rsa/mv servercert.pem /etc/swanctl/x509/ strongSwan 配置本文使用 swanctl 进行配置 Client123456789101112131415161718192021222324[root@localhost ~]# cat /etc/swanctl/conf.d/client.confconnections &#123; test &#123; remote_addrs = 10.211.55.17 local &#123; auth = pubkey certs = clientcert.pem &#125; remote &#123; auth = pubkey id = 10.211.55.17 &#125; children &#123; test &#123; esp_proposals = aes256-sha256-x25519 &#125; &#125; version = 2 mobike = no proposals = aes256-sha256-x25519 &#125;&#125; Server123456789101112131415161718192021222324[root@localhost ~]# cat /etc/swanctl/conf.d/server.confconnections &#123; test &#123; local_addrs = 10.211.55.17 local &#123; auth = pubkey certs = servercert.pem id = 10.211.55.17 &#125; remote &#123; auth = pubkey &#125; children &#123; test &#123; remote_ts = 10.211.55.0/24 esp_proposals = aes256-sha256-x25519 &#125; &#125; version = 2 mobike = no proposals = aes256-sha256-x25519 &#125;&#125; strongSwan 启动防火墙打开 500 和 4500 端口 启动进程/usr/libexec/ipsec/charon &amp; 加载配置swanctl --load-all 启动ipsecipsec up &lt;conn&gt; 关闭ipsecipsec down &lt;conn&gt; 参考[1] strongSwan.org [2] strongSwan Wiki [3] Centos7配置strongswan]]></content>
