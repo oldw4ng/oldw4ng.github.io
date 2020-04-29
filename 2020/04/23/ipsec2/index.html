@@ -20,16 +20,23 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="本文主要介绍了 IPsec 的一个开源解决方案 storngSwan 的配置和使用方法。">
+  <meta name="description" content="本文主要介绍了 IPsec 的一个开源解决方案 storngSwan 的配置和使用方法，并抓包理解 IKEv2 过程。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="strongSwan 配置与使用">
+<meta property="og:title" content="strongSwan 配置使用">
 <meta property="og:url" content="http://yoursite.com/2020/04/23/ipsec2/index.html">
 <meta property="og:site_name" content="老王的神秘商店">
-<meta property="og:description" content="本文主要介绍了 IPsec 的一个开源解决方案 storngSwan 的配置和使用方法。">
+<meta property="og:description" content="本文主要介绍了 IPsec 的一个开源解决方案 storngSwan 的配置和使用方法，并抓包理解 IKEv2 过程。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/test_env.png">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ipsec_pcap.png">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ike_sa_init1.png">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ike_sa_init2.png">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/cacert_parse.png">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/subjectPublicKeyInfoSHA1.png">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ike_auth1.png">
+<meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/create_child_sa.png">
 <meta property="article:published_time" content="2020-04-23T06:30:36.000Z">
-<meta property="article:modified_time" content="2020-04-26T03:01:39.668Z">
+<meta property="article:modified_time" content="2020-04-29T07:26:34.906Z">
 <meta property="article:author" content="oldw4ng">
 <meta property="article:tag" content="网络协议">
 <meta property="article:tag" content="ipsec">
@@ -49,7 +56,7 @@
   };
 </script>
 
-  <title>strongSwan 配置与使用 | 老王的神秘商店</title>
+  <title>strongSwan 配置使用 | 老王的神秘商店</title>
   
 
 
@@ -211,7 +218,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          strongSwan 配置与使用
+          strongSwan 配置使用
         </h1>
 
         <div class="post-meta">
@@ -260,14 +267,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.5k</span>
+              <span>4.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -279,7 +286,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>本文主要介绍了 IPsec 的一个开源解决方案 storngSwan 的配置和使用方法。</p>
+        <p>本文主要介绍了 IPsec 的一个开源解决方案 storngSwan 的配置和使用方法，并抓包理解 IKEv2 过程。</p>
 <a id="more"></a>
 <h2 id="strongSwan-简介"><a href="#strongSwan-简介" class="headerlink" title="strongSwan 简介"></a>strongSwan 简介</h2><p>strongSwan 是一个一款基于 FreeS/WAN 的 IPsec的开源解决方案。对客户端和服务器提供了加密和验证功能。独特的功能是使用X.509 属性证书来实现基于组成员身份的访问控制方案。StrongSwan可与其他IPsec实现互操作，包括各种Microsoft Windows和macOS VPN客户端。模块化的StrongSwan 5.0分支完全实现了网络密钥交换（IKEv2）协议，由RFC 5996定义。</p>
 <h2 id="strongSwan-安装"><a href="#strongSwan-安装" class="headerlink" title="strongSwan 安装"></a>strongSwan 安装</h2><p>用两台 CentOS 7 虚拟机进行测试</p>
@@ -288,7 +295,8 @@
 <h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p><code>tar xjvf strongswan-x.x.x.tar.bz2; cd strongswan-x.x.x</code></p>
 <h3 id="configure"><a href="#configure" class="headerlink" title="configure"></a>configure</h3><p><code>./configure --prefix=/usr --sysconfdir=/etc --&lt;your-options&gt;</code></p>
 <h3 id="build-amp-amp-install"><a href="#build-amp-amp-install" class="headerlink" title="build &amp;&amp; install"></a>build &amp;&amp; install</h3><p><code>make &amp;&amp; make install</code></p>
-<h2 id="证书生成与安装"><a href="#证书生成与安装" class="headerlink" title="证书生成与安装"></a>证书生成与安装</h2><h3 id="证书生成"><a href="#证书生成" class="headerlink" title="证书生成"></a>证书生成</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成CA证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; cakey.pem	<span class="comment"># 创建私钥</span></span><br><span class="line">ipsec pki --self --<span class="keyword">in</span> cakey.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=Oldw4ng CA"</span> --ca --lifetime 365 --outform pem &gt; cacert.pem	<span class="comment"># 自签发CA证书</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成服务器证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; serverkey.pem</span><br><span class="line">ipsec pki --pub --<span class="keyword">in</span> serverkey.pem --outform pem &gt; serverpub.pem</span><br><span class="line">ipsec pki --issue --lifetime 30 --cacert cacert.pem --cakey cakey.pem --<span class="keyword">in</span> serverpub.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=10.211.55.17"</span> --san=<span class="string">"10.211.55.17"</span> --flag serverAuth --flag ikeIntermediate --outform pem &gt; servercert.pem</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成客户端证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; clientkey.pem</span><br><span class="line">ipsec pki --pub --<span class="keyword">in</span> clientkey.pem --outform pem &gt; clientpub.pem</span><br><span class="line">ipsec pki --issue --lifetime 30 --cacert cacert.pem --cakey cakey.pem --<span class="keyword">in</span> clientpub.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=10.211.55.16"</span> --outform pem &gt; clientcert.pem</span><br></pre></td></tr></table></figure>
+<h2 id="证书生成与安装"><a href="#证书生成与安装" class="headerlink" title="证书生成与安装"></a>证书生成与安装</h2><h3 id="证书生成"><a href="#证书生成" class="headerlink" title="证书生成"></a>证书生成</h3><p>这里用的是 ipsec 里边的 pki 工具，openssl 也可以做</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成CA证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; cakey.pem	<span class="comment"># 创建私钥</span></span><br><span class="line">ipsec pki --self --<span class="keyword">in</span> cakey.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=Oldw4ng CA"</span> --ca --lifetime 365 --outform pem &gt; cacert.pem	<span class="comment"># 自签发CA证书</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成服务器证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; serverkey.pem</span><br><span class="line">ipsec pki --pub --<span class="keyword">in</span> serverkey.pem --outform pem &gt; serverpub.pem</span><br><span class="line">ipsec pki --issue --lifetime 30 --cacert cacert.pem --cakey cakey.pem --<span class="keyword">in</span> serverpub.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=10.211.55.17"</span> --san=<span class="string">"10.211.55.17"</span> --flag serverAuth --flag ikeIntermediate --outform pem &gt; servercert.pem</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成客户端证书</span></span><br><span class="line">ipsec pki --gen --outform pem &gt; clientkey.pem</span><br><span class="line">ipsec pki --pub --<span class="keyword">in</span> clientkey.pem --outform pem &gt; clientpub.pem</span><br><span class="line">ipsec pki --issue --lifetime 30 --cacert cacert.pem --cakey cakey.pem --<span class="keyword">in</span> clientpub.pem --dn <span class="string">"C=CN, O=Oldw4ng, CN=10.211.55.16"</span> --outform pem &gt; clientcert.pem</span><br></pre></td></tr></table></figure>
 <h3 id="证书安装"><a href="#证书安装" class="headerlink" title="证书安装"></a>证书安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vm1 (10.211.55.16)</span></span><br><span class="line">mv cacert.pem /etc/swanctl/x509ca/</span><br><span class="line">mv clientkey.pem /etc/swanctl/rsa/</span><br><span class="line">mv clientcert.pem /etc/swanctl/x509/</span><br><span class="line"></span><br><span class="line"><span class="comment"># vm2 (10.211.55.17)</span></span><br><span class="line">mv cacert.pem /etc/swanctl/x509ca/</span><br><span class="line">mv serverkey.pem /etc/swanctl/rsa/</span><br><span class="line">mv servercert.pem /etc/swanctl/x509/</span><br></pre></td></tr></table></figure>
 <h2 id="strongSwan-配置"><a href="#strongSwan-配置" class="headerlink" title="strongSwan 配置"></a>strongSwan 配置</h2><p>本文使用 swanctl 进行配置</p>
 <h3 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># cat /etc/swanctl/conf.d/client.conf</span></span><br><span class="line">connections &#123;</span><br><span class="line">    <span class="built_in">test</span> &#123;</span><br><span class="line">        remote_addrs = 10.211.55.17</span><br><span class="line"></span><br><span class="line">        <span class="built_in">local</span> &#123;</span><br><span class="line">            auth = pubkey</span><br><span class="line">            certs = clientcert.pem</span><br><span class="line">        &#125;</span><br><span class="line">        remote &#123;</span><br><span class="line">            auth = pubkey</span><br><span class="line">            id = 10.211.55.17</span><br><span class="line">        &#125;</span><br><span class="line">        children &#123;</span><br><span class="line">            <span class="built_in">test</span> &#123;</span><br><span class="line"></span><br><span class="line">                esp_proposals = aes256-sha256-x25519</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        version = 2</span><br><span class="line">        mobike = no</span><br><span class="line">        proposals = aes256-sha256-x25519</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -298,6 +306,52 @@
 <h3 id="加载配置"><a href="#加载配置" class="headerlink" title="加载配置"></a>加载配置</h3><p><code>swanctl --load-all</code></p>
 <h3 id="启动ipsec"><a href="#启动ipsec" class="headerlink" title="启动ipsec"></a>启动ipsec</h3><p><code>ipsec up &lt;conn&gt;</code></p>
 <h3 id="关闭ipsec"><a href="#关闭ipsec" class="headerlink" title="关闭ipsec"></a>关闭ipsec</h3><p><code>ipsec down &lt;conn&gt;</code></p>
+<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><p>下图展示了一次完整的 IPsec 建立、加密及断开的过程：</p>
+<p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ipsec_pcap.png" alt=""></p>
+<p>根据 RFC 5996 中对IKEv2的说明可知，IKEv2 协议由两个阶段的交互过程构成。在本例中也就是前面6条（两对）报文就是 IKEv2交互的报文。第一阶段称为 IKE_SA_INIT，主要功能是协商加密算法，交换随机数，并进行Diffie-Hellman交换。第二阶段称为 IKE_AUTH，对前面的消息进行身份验证，交换标识和证书，并建立第一个子SA。 这些消息的一部分被加密，并通过通过IKE_SA_INIT交换建立的密钥来保护完整性，因此对于窃听者来说，身份是隐藏的，并且所有消息中的所有字段都经过身份验证。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Initiator                         Responder</span><br><span class="line">-------------------------------------------------------------------</span><br><span class="line">HDR, SAi1, KEi, Ni  	--&gt;</span><br><span class="line">                             &lt;--  HDR, SAr1, KEr, Nr, [CERTREQ]</span><br><span class="line"></span><br><span class="line">HDR, SK &#123;IDi, [CERT,] [CERTREQ,]</span><br><span class="line">    [IDr,] AUTH, SAi2,</span><br><span class="line">    TSi, TSr&#125;  			  --&gt;</span><br><span class="line">                             &lt;--  HDR, SK &#123;IDr, [CERT,] AUTH,</span><br><span class="line">                                      SAr2, TSi, TSr&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="IKE-SA-INIT"><a href="#IKE-SA-INIT" class="headerlink" title="IKE_SA_INIT"></a>IKE_SA_INIT</h3><p>先看第一个报文：</p>
+<p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ike_sa_init1.png" alt=""></p>
+<p>上图中红框分别对应了 SAi1, KEi, Ni</p>
+<p>因为我只配了一个proposal，这里就只显示了一个</p>
+<table>
+<thead>
+<tr>
+<th>加密算法</th>
+<th>完整性算法</th>
+<th>伪随机数生成函数</th>
+<th>Diffie-Hellman组</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AES_CBC_256</td>
+<td>HMAC_SHA2_256_128</td>
+<td>PRF_HMAC_SHA2_256</td>
+<td>X25519</td>
+</tr>
+</tbody>
+</table>
+<p>再看第二个报文：</p>
+<p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ike_sa_init2.png" alt=""></p>
+<p>Responder 回应的内容我们只关心 SA 和 CERTREQ。这时的 SA 就是双方协商出来共用的 SA。</p>
+<p>再看 CERTREQ，这里边有一个 Certificate Authority Data，查了一下  RFC 5996 有如下说明：</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The Certification Authority value is a concatenated list of SHA-1 hashes of the public keys of trusted Certification Authorities (CAs). Each is encoded as the SHA-1 hash of the Subject Public Key Info element (see section 4.1.2.7 of [PKIX]) from each Trust Anchor certificate. The 20-octet hashes are concatenated and included with no other formatting.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>就是 CA 证书中公钥内容的 SHA-1 摘要值。就是 RFC 3280 中的 <code>subjectPublicKeyInfo</code> ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">TBSCertificate  ::&#x3D;  SEQUENCE  &#123;</span><br><span class="line">     version         [0]  EXPLICIT Version DEFAULT v1,</span><br><span class="line">     serialNumber         CertificateSerialNumber,</span><br><span class="line">     signature            AlgorithmIdentifier,</span><br><span class="line">     issuer               Name,</span><br><span class="line">     validity             Validity,</span><br><span class="line">     subject              Name,</span><br><span class="line">     subjectPublicKeyInfo SubjectPublicKeyInfo,</span><br><span class="line">     issuerUniqueID  [1]  IMPLICIT UniqueIdentifier OPTIONAL,</span><br><span class="line">                          -- If present, version MUST be v2 or v3</span><br><span class="line">     subjectUniqueID [2]  IMPLICIT UniqueIdentifier OPTIONAL,</span><br><span class="line">                          -- If present, version MUST be v2 or v3</span><br><span class="line">     extensions      [3]  EXPLICIT Extensions OPTIONAL</span><br><span class="line">                          -- If present, version MUST be v3</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用 asn1dump 软件打开 CA 证书，黄色部分就是 <code>subjectPublicKeyInfo</code>：</p>
+<p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/cacert_parse.png" alt=""></p>
+<p>对这部分做 SHA-1 摘要运算：</p>
+<p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/subjectPublicKeyInfoSHA1.png" alt=""></p>
+<p>得到结果与报文中的一致。这个时候 IKEv2 的第一阶段已经完成了，双方协商出了一个共用的算法集合。</p>
+<h3 id="IKE-AUTH"><a href="#IKE-AUTH" class="headerlink" title="IKE_AUTH"></a>IKE_AUTH</h3><p>IKE_AUTH 负责身份认证，并创建第一个Child SA（一对IPSec SA ）</p>
+<p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ike_auth1.png" alt=""></p>
+<p>从报文中我们可以看到认证的信息都已经被加密了，我也没找到strongSwan里边</p>
+<h3 id="CREATE-CHILD-SA"><a href="#CREATE-CHILD-SA" class="headerlink" title="CREATE_CHILD_SA"></a>CREATE_CHILD_SA</h3><p>子SA交换2条消息建立一对Child SA：</p>
+<p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/create_child_sa.png" alt=""></p>
+<p>至此，一条IPsec 通道就建立完成了。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.strongswan.org/" target="_blank" rel="noopener">strongSwan.org</a></p>
 <p>[2] <a href="https://en.wikipedia.org/wiki/StrongSwan" target="_blank" rel="noopener">strongSwan Wiki</a></p>
 <p>[3] <a href="http://www.beijinghuayu.com.cn/centos7配置strongswan/" target="_blank" rel="noopener">Centos7配置strongswan</a></p>
@@ -389,7 +443,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-简介"><span class="nav-number">1.</span> <span class="nav-text">strongSwan 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-安装"><span class="nav-number">2.</span> <span class="nav-text">strongSwan 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载"><span class="nav-number">2.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解压"><span class="nav-number">2.2.</span> <span class="nav-text">解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configure"><span class="nav-number">2.3.</span> <span class="nav-text">configure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#build-amp-amp-install"><span class="nav-number">2.4.</span> <span class="nav-text">build &amp;&amp; install</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书生成与安装"><span class="nav-number">3.</span> <span class="nav-text">证书生成与安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#证书生成"><span class="nav-number">3.1.</span> <span class="nav-text">证书生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证书安装"><span class="nav-number">3.2.</span> <span class="nav-text">证书安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-配置"><span class="nav-number">4.</span> <span class="nav-text">strongSwan 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Client"><span class="nav-number">4.1.</span> <span class="nav-text">Client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Server"><span class="nav-number">4.2.</span> <span class="nav-text">Server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-启动"><span class="nav-number">5.</span> <span class="nav-text">strongSwan 启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙"><span class="nav-number">5.1.</span> <span class="nav-text">防火墙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动进程"><span class="nav-number">5.2.</span> <span class="nav-text">启动进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载配置"><span class="nav-number">5.3.</span> <span class="nav-text">加载配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动ipsec"><span class="nav-number">5.4.</span> <span class="nav-text">启动ipsec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭ipsec"><span class="nav-number">5.5.</span> <span class="nav-text">关闭ipsec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-简介"><span class="nav-number">1.</span> <span class="nav-text">strongSwan 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-安装"><span class="nav-number">2.</span> <span class="nav-text">strongSwan 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载"><span class="nav-number">2.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解压"><span class="nav-number">2.2.</span> <span class="nav-text">解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configure"><span class="nav-number">2.3.</span> <span class="nav-text">configure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#build-amp-amp-install"><span class="nav-number">2.4.</span> <span class="nav-text">build &amp;&amp; install</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书生成与安装"><span class="nav-number">3.</span> <span class="nav-text">证书生成与安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#证书生成"><span class="nav-number">3.1.</span> <span class="nav-text">证书生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证书安装"><span class="nav-number">3.2.</span> <span class="nav-text">证书安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-配置"><span class="nav-number">4.</span> <span class="nav-text">strongSwan 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Client"><span class="nav-number">4.1.</span> <span class="nav-text">Client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Server"><span class="nav-number">4.2.</span> <span class="nav-text">Server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strongSwan-启动"><span class="nav-number">5.</span> <span class="nav-text">strongSwan 启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙"><span class="nav-number">5.1.</span> <span class="nav-text">防火墙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动进程"><span class="nav-number">5.2.</span> <span class="nav-text">启动进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载配置"><span class="nav-number">5.3.</span> <span class="nav-text">加载配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动ipsec"><span class="nav-number">5.4.</span> <span class="nav-text">启动ipsec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭ipsec"><span class="nav-number">5.5.</span> <span class="nav-text">关闭ipsec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抓包"><span class="nav-number">6.</span> <span class="nav-text">抓包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IKE-SA-INIT"><span class="nav-number">6.1.</span> <span class="nav-text">IKE_SA_INIT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IKE-AUTH"><span class="nav-number">6.2.</span> <span class="nav-text">IKE_AUTH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CREATE-CHILD-SA"><span class="nav-number">6.3.</span> <span class="nav-text">CREATE_CHILD_SA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -534,7 +588,7 @@
   var disqus_config = function() {
     this.page.url = "http://yoursite.com/2020/04/23/ipsec2/";
     this.page.identifier = "2020/04/23/ipsec2/";
-    this.page.title = "strongSwan 配置与使用";
+    this.page.title = "strongSwan 配置使用";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
