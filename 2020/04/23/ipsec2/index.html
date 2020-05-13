@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ike_auth1.png">
 <meta property="og:image" content="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/create_child_sa.png">
 <meta property="article:published_time" content="2020-04-23T06:30:36.000Z">
-<meta property="article:modified_time" content="2020-05-13T07:46:25.608Z">
+<meta property="article:modified_time" content="2020-05-13T07:48:58.794Z">
 <meta property="article:author" content="oldw4ng">
 <meta property="article:tag" content="网络协议">
 <meta property="article:tag" content="ipsec">
@@ -351,7 +351,7 @@
 <p>得到结果与报文中的一致。这个时候 IKEv2 的第一阶段已经完成了，双方协商出了一个共用的算法集合。</p>
 <h3 id="IKE-AUTH"><a href="#IKE-AUTH" class="headerlink" title="IKE_AUTH"></a>IKE_AUTH</h3><p>IKE_AUTH 负责身份认证，并创建第一个Child SA（一对IPSec SA ）</p>
 <p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/ike_auth1.png" alt=""></p>
-<p>从报文中我们可以看到认证的信息都已经被加密了，我也没找到strongSwan里边</p>
+<p>从报文中我们可以看到认证的信息都已经被加密了。</p>
 <h3 id="CREATE-CHILD-SA"><a href="#CREATE-CHILD-SA" class="headerlink" title="CREATE_CHILD_SA"></a>CREATE_CHILD_SA</h3><p>子SA交换2条消息建立一对Child SA：</p>
 <p><img src="https://oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/img/create_child_sa.png" alt=""></p>
 <p>至此，一条IPsec 通道就建立完成了。</p>
