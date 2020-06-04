@@ -255,36 +255,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>odu-phy 的安装流程在<code>odu.phy</code>目录下的<code>example_odulow_build.txt</code>文件中有命令给出，本文主要是针对这个过程中出现的可能遇到的问题进行说明</p>
-<h2 id="Dependencies"><a href="#Dependencies" class="headerlink" title="Dependencies"></a>Dependencies</h2><p>安装依赖</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/yum.repos.d/</span><br><span class="line">mkdir backup;</span><br><span class="line">mv *.repo backup;</span><br><span class="line"></span><br><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">yum makecache</span><br><span class="line"></span><br><span class="line">yum install vim gcc-c++ libhugetlbfs* libstdc++* kernel-devel numa* gcc git mlocate xorg-x11-server-Xorg -y</span><br><span class="line"><span class="built_in">cd</span> /home</span><br><span class="line">mkdir odu_low_test</span><br><span class="line"><span class="built_in">cd</span> /home/odu_low_test</span><br></pre></td></tr></table></figure>
-<h2 id="Intel-C-Compiler-icc"><a href="#Intel-C-Compiler-icc" class="headerlink" title="Intel C++ Compiler (icc)"></a>Intel C++ Compiler (icc)</h2><p>编译 odu-phy 需要安装 Intel C++ Compiler (下面用 icc 代替)，下载链接：<a href="https://software.intel.com/content/www/us/en/develop/tools/system-studio/choose-download.html#technical" target="_blank" rel="noopener">icc 下载地址</a></p>
-<p>下载好解压</p>
-<p><code>unzip intel-sw-tools-installation-bundle-linux-linux.zip</code></p>
-<p><img src="oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/uPic/image-20200604145915435.png" alt="image-20200604145915435"></p>
-<p>解压<code>intel-sw-tools-installer.tar.gz</code></p>
-<p><img src="oldw4ng-sh-1258452357.cos.ap-shanghai.myqcloud.com/uPic/image-20200604151742925.png" alt="image-20200604151742925"></p>
-<p>运行<code>install.sh</code>脚本开始安装</p>
-<p><code>./install.sh</code></p>
-<p>中间按着屏幕上的提示来，就安装好了。</p>
-<p>安装完成后将许可文件放入下面六个路径中的一个：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># **  1.  /opt/intel/sw_dev_tools/compilers_and_libraries_2020.1.219/linux/bin/intel64/../../Licenses</span></span><br><span class="line"><span class="comment"># **  2.  /root/Licenses</span></span><br><span class="line"><span class="comment"># **  3.  /root/intel/licenses</span></span><br><span class="line"><span class="comment"># **  4.  /opt/intel/licenses</span></span><br><span class="line"><span class="comment"># **  5.  /Users/Shared/Library/Application Support/Intel/Licenses</span></span><br><span class="line"><span class="comment"># **  6.  /opt/intel/sw_dev_tools/compilers_and_libraries_2020.1.219/linux/bin/intel64/*.lic</span></span><br></pre></td></tr></table></figure>
-<p>最后，设置两个软链接</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /opt/intel/sw_dev_tools/compilers_and_libraries_2020.1.219/linux/bin/intel64/icc /usr/bin/</span><br><span class="line">ln -s /opt/intel/sw_dev_tools/compilers_and_libraries_2020.1.219/linux/bin/intel64/icpc /usr/bin/</span><br></pre></td></tr></table></figure>
-<h2 id="DPDK"><a href="#DPDK" class="headerlink" title="DPDK"></a>DPDK</h2><p>这个版本的 odu-phy 使用的是 dpdk-18.08.1</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget http://fast.dpdk.org/rel/dpdk-18.08.1.tar.xz</span><br><span class="line">xz -d dpdk-18.08.1.tar.xz</span><br><span class="line">tar -xvf dpdk-18.08.1.tar</span><br><span class="line">mv dpdk-stable-18.08.1 dpdk-18.08</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> dpdk-18.08/usertools/</span><br><span class="line">./dpdk-setup.sh <span class="comment"># 15,35</span></span><br></pre></td></tr></table></figure>
-<h2 id="odu-phy"><a href="#odu-phy" class="headerlink" title="odu-phy"></a>odu-phy</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> <span class="string">"https://gerrit.o-ran-sc.org/r/o-du/phy"</span></span><br><span class="line"><span class="comment"># In this example we are building the fhi_lib using gcc and the testapp is not being built.</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> XRAN_DIR=/home/odu_low_test/phy/fhi_lib</span><br><span class="line"><span class="built_in">export</span> RTE_SDK=/home/odu_low_test/dpdk-18.08</span><br><span class="line"><span class="built_in">export</span> RTE_TARGET=x86_64-native-linuxapp-gcc</span><br><span class="line"><span class="built_in">export</span> BUILD_GCC=1</span><br><span class="line"><span class="built_in">cd</span> phy/fhi_lib</span><br><span class="line">chmod 777 build.sh</span><br><span class="line">./build.sh</span><br></pre></td></tr></table></figure>
-<p>在编译 odu-phy 时可能会遇到如下问题：</p>
-<p><code>Catastrophic error: could not set locale &quot;&quot; to allow processing of multibyte characters</code></p>
-<p>解决方法：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LANG=C</span><br><span class="line"><span class="built_in">export</span> LANG=en_US.UTF-8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 有些系统还需要设置 LC_ALL=en_US</span></span><br><span class="line"><span class="built_in">export</span> LC_ALL=en_US</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>参考</p>
-<ol>
-<li><a href="https://software.intel.com/content/www/us/en/develop/articles/cdiag912.html" target="_blank" rel="noopener">Diagnostic 912: could not set locale</a></li>
-</ol>
-</blockquote>
-
+          <p>odu-phy 的安装流程在<code>odu.phy</code>目录下的<code>example_odulow_build.txt</code>文件中有命令给出，本文主要是针对这个过程中出现的可能遇到的问题进行说明<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/04/oran-odu-phy-installation/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -687,7 +666,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
